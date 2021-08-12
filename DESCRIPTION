@@ -1,0 +1,26 @@
+Package: NASIStools
+Title: Tools for the USDA-NRCS National Soil Information System (NASIS)
+Version: 0.0.0.9000
+Authors@R: 
+    c(person(given = "Andrew",
+             family = "Brown",
+             role = c("aut", "cre"),
+             email = "andrew.g.brown@usda.gov"),
+      person(given = "Soil and Plant Science Division Staff",
+             family = "USDA-NRCS",
+             role = c("ctb")))
+Description: The goal of NASIStools is to provide methods managing NASIS data, SSURGO exports, official metadata as well as to provide ports of legacy code (such as MS Access Macros) to open source alternatives. Use cases primarily relate to data model development, QA/QC of provisional data and inspection of published products. 
+    This is part of a broader goal to compartmentalize low-level procedures relevant to internal (USDA) usage. Isolating lesser-used, more specific functions allows for more comprehensive testing and opportunities to focus development of the soilDB package.
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports: 
+    data.table,
+    DBI,
+    RSQLite,
+    soilDB
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
