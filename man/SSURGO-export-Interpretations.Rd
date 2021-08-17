@@ -5,16 +5,35 @@
 \alias{get_SSURGO_component_keys}
 \title{Get SSURGO Component Interpretations summaries}
 \usage{
-get_SSURGO_cointerp(dsn, mrulename = NULL, ruledepth = 0)
+get_SSURGO_cointerp(
+  dsn,
+  drv = RSQLite::SQLite(),
+  columns = c("mapunit.mukey", "mapunit.musym", "component.cokey", "cointerp.*"),
+  mrulename = NULL,
+  ruledepth = 0,
+  close = TRUE
+)
 
-get_SSURGO_component_keys(dsn, mrulename = NULL, ruledepth = 0)
+get_SSURGO_component_keys(
+  dsn,
+  drv = RSQLite::SQLite(),
+  mrulename = NULL,
+  ruledepth = 0,
+  close = TRUE
+)
 }
 \arguments{
 \item{dsn}{A DBIConnection}
 
+\item{drv}{A DBI driver (Default: \code{RSQLite::SQLite()})}
+
+\item{columns}{Default: "legend.lmapunitiid", "component.coiid", "cointerp.mrulekey", "cointerp.seqnum", "legend.musym"}
+
 \item{mrulename}{Filter on rule name(s) of interpretation}
 
 \item{ruledepth}{Filter rule depth (default \code{ruledepth = 0})}
+
+\item{close}{close connections that were opened internally when done? Default: \code{TRUE}}
 }
 \description{
 Get SSURGO Component Interpretations summaries

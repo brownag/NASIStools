@@ -4,14 +4,24 @@
 \alias{get_SSURGO_interp_reasons_by_mrulename}
 \title{Get Interpretation Rating "Reasons" from SSURGO \code{cointerp} table}
 \usage{
-get_SSURGO_interp_reasons_by_mrulename(dsn, mrulename, n = 2)
+get_SSURGO_interp_reasons_by_mrulename(
+  dsn,
+  drv = RSQLite::SQLite(),
+  mrulename,
+  n = 2,
+  close = TRUE
+)
 }
 \arguments{
 \item{dsn}{A DBIConnection}
 
+\item{drv}{A DBI driver (Default: \code{RSQLite::SQLite()})}
+
 \item{mrulename}{Rule name of interpretation}
 
 \item{n}{Number of reasons to return}
+
+\item{close}{close connections that were opened internally when done? Default: \code{TRUE}}
 }
 \value{
 A \code{data.frame} containing columns: "lmapunitiid", "coiid", "mrulename", "cokeyref", "Reasons", "liid", "muiid", "corriid", "dmuiid", "areasymbol", "musym", "compname", "comppct_r", "interphr", "interphrc","mukey"

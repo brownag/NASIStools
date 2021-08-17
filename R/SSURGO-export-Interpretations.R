@@ -17,8 +17,10 @@
 #' Get Interpretation Rating "Reasons" from SSURGO `cointerp` table
 #'
 #' @param dsn A DBIConnection
+#' @param drv A DBI driver (Default: `RSQLite::SQLite()`)
 #' @param mrulename Rule name of interpretation
 #' @param n Number of reasons to return
+#' @param close close connections that were opened internally when done? Default: `TRUE`
 #'
 #' @return A `data.frame` containing columns: "lmapunitiid", "coiid", "mrulename", "cokeyref", "Reasons", "liid", "muiid", "corriid", "dmuiid", "areasymbol", "musym", "compname", "comppct_r", "interphr", "interphrc","mukey"
 #' @export
@@ -26,7 +28,8 @@
 #' @importFrom DBI dbConnect dbGetQuery
 #' @importFrom RSQLite SQLite
 #' @importFrom soilDB format_SQL_in_statement
-get_SSURGO_interp_reasons_by_mrulename <- function(dsn, mrulename, n = 2) {
+get_SSURGO_interp_reasons_by_mrulename <- function(dsn, drv = RSQLite::SQLite(),
+                                                   mrulename, n = 2, close = TRUE) {
   # based on VBA Function in Report Functions module of Access .mdb
   # GetInterpReasons(strCokey As String,
   #                  strMRuleName As String,
@@ -34,7 +37,14 @@ get_SSURGO_interp_reasons_by_mrulename <- function(dsn, mrulename, n = 2) {
   # channel <- DBI::dbConnect(odbc::odbc(),
   #     .connection_string = paste0("Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=", dsn))
 
-  stopifnot(inherits(dsn, 'DBIConnection'))
+  if (!inherits(dsn, 'DBIConnection')) {
+    channel <- DBI::dbConnect(drv, dsn)
+  } else {
+    channel <- dsn
+    attr(channel, 'isUserDefined') <- TRUE
+  }
+
+
   channel <- dsn
 
   # 1:1 with cointerp ruledepth = 0
@@ -71,6 +81,13 @@ get_SSURGO_interp_reasons_by_mrulename <- function(dsn, mrulename, n = 2) {
   colnames(high_rep_rating_class) <- c("lmapunitiid","coiid","interphr","interphrc")
 
   .SD <- NULL
+
+  userdefined <- attributes(channel)$isUserDefined
+
+  if((is.null(userdefined) || !userdefined) && close) {
+    DBI::dbDisconnect(channel)
+  }
+
   # flatten the reasons so they are 1:1 with component, join to lookup tables
   as.data.frame(cointerplvl1[, list(Reasons = paste0(head(.SD[["interphrc"]], n), collapse = "; ")),
                     by = c("lmapunitiid", "coiid")][res2,
@@ -82,44 +99,76 @@ get_SSURGO_interp_reasons_by_mrulename <- function(dsn, mrulename, n = 2) {
 #' Get SSURGO Component Interpretations summaries
 #'
 #' @param dsn A DBIConnection
+#' @param drv A DBI driver (Default: `RSQLite::SQLite()`)
+#' @param columns Default: "legend.lmapunitiid", "component.coiid", "cointerp.mrulekey", "cointerp.seqnum", "legend.musym"
 #' @param mrulename Filter on rule name(s) of interpretation
 #' @param ruledepth Filter rule depth (default `ruledepth = 0`)
+#' @param close close connections that were opened internally when done? Default: `TRUE`
 #'
 #' @export
 #' @rdname SSURGO-export-Interpretations
-get_SSURGO_cointerp <- function(dsn, mrulename = NULL, ruledepth = 0) {
+#' @importFrom RSQLite SQLite
+get_SSURGO_cointerp <- function(dsn, drv = RSQLite::SQLite(),
+                                columns = c("mapunit.mukey",
+                                            "mapunit.musym",
+                                            "component.cokey",
+                                            "cointerp.*"),
+                                mrulename = NULL, ruledepth = 0, close = TRUE) {
 
-  stopifnot(inherits(dsn, 'DBIConnection'))
+  if (!inherits(dsn, 'DBIConnection')) {
+    channel <- DBI::dbConnect(drv, dsn)
+  } else {
+    channel <- dsn
+    attr(channel, 'isUserDefined') <- TRUE
+  }
+
   channel <- dsn
 
   # 1:1 with cointerp ruledepth = 0
-  q <- sprintf("SELECT * FROM cointerp
+  q <- sprintf("SELECT %s FROM cointerp
+                INNER JOIN component ON component.cokey = cointerp.cokey
+                INNER JOIN mapunit ON component.mukey = mapunit.mukey
+                INNER JOIN legend ON legend.lkey = mapunit.lkey
                 %s %s %s %s
                 ORDER BY interphr DESC",
+               paste0(columns, collapse = ", "),
                ifelse(!is.null(mrulename) | !is.null(ruledepth), "WHERE" , ""),
                ifelse(!is.null(mrulename), paste0("mrulename IN ",
                                                   soilDB::format_SQL_in_statement(as.character(mrulename))), ""),
                ifelse(!is.null(mrulename) & !is.null(ruledepth), "AND" , ""),
                ifelse(!is.null(ruledepth), paste0("ruledepth IN ",
                                                   soilDB::format_SQL_in_statement(as.character(ruledepth))), ""))
-  data.table::as.data.table(DBI::dbGetQuery(channel, q))
+
+  res <- data.table::as.data.table(DBI::dbGetQuery(channel, q))
+  userdefined <- attributes(channel)$isUserDefined
+
+  if((is.null(userdefined) || !userdefined) && close) {
+    DBI::dbDisconnect(channel)
+  }
+
+  res
 }
 
 #' @export
 #' @rdname SSURGO-export-Interpretations
-get_SSURGO_component_keys <- function(dsn, mrulename = NULL, ruledepth = 0) {
+get_SSURGO_component_keys <- function(dsn, drv = RSQLite::SQLite(),
+                                      mrulename = NULL, ruledepth = 0, close = TRUE) {
 
-  stopifnot(inherits(dsn, 'DBIConnection'))
-  channel <- dsn
+  if (!inherits(dsn, 'DBIConnection')) {
+    channel <- DBI::dbConnect(drv, dsn)
+  } else {
+    channel <- dsn
+    attr(channel, 'isUserDefined') <- TRUE
+  }
 
   cointerpbase <- get_SSURGO_cointerp(channel, mrulename = mrulename, ruledepth = 0)
 
   # identify the key components of the cointerp table to relate to NASIS
-  cointerpkey <- data.frame(do.call('rbind', strsplit(cointerpbase$cointerpkey, ":")))
-  colnames(cointerpkey) <- c("lmapunitiid", "coiid", "mrulekey", "seqnum")
+  cointerpkey <- data.frame(do.call('rbind', strsplit(cointerpbase$cointerpkey, ":")), musym = cointerpbase$musym)
+  colnames(cointerpkey) <- c("lmapunitiid", "coiid", "mrulekey", "seqnum" ,"musym")
 
   # the unique subset of the lmapunitiid/mukey and coiid gives us a 1:1 with components
-  componentkey <- unique(cointerpkey[, c("lmapunitiid", "coiid")])
+  componentkey <- unique(cointerpkey[, c("lmapunitiid", "coiid", "musym")])
   componentkey$cokey <- paste0(componentkey$lmapunitiid, ":", componentkey$coiid)
   componentkey
 }
