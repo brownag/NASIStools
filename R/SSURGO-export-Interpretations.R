@@ -48,10 +48,10 @@ get_SSURGO_interp_reasons_by_mrulename <- function(dsn, drv = RSQLite::SQLite(),
   channel <- dsn
 
   # 1:1 with cointerp ruledepth = 0
-  cointerpbase <- get_SSURGO_cointerp(channel, mrulename = mrulename, ruledepth = 0)
+  cointerpbase <- get_SSURGO_cointerp(channel, mrulename = mrulename, ruledepth = 0, close = FALSE)
 
   # 1:1 with cointerp ruledepth = 1
-  cointerplvl1 <- get_SSURGO_cointerp(channel, mrulename = mrulename, ruledepth = 1)
+  cointerplvl1 <- get_SSURGO_cointerp(channel, mrulename = mrulename, ruledepth = 1, close = FALSE)
 
   # TODO: allow extend "reasons" to rules with ruledepth > 1?
 

@@ -1,0 +1,153 @@
+---
+title: "Interpretations Report"
+author: "Andrew G. Brown"
+date: "8/19/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(DBI)
+library(NASIStools)
+
+tabular_path <- "E:/Geodata/FY2021/2021_final_major"
+tabular_file <- paste0(tabular_path, ".sqlite")
+
+# create a SSURGO sqlite database from a snapshot
+if (!file.exists(tabular_file))
+  createSSURGO(dsn = tabular_path,
+               output_path = tabular_file)
+
+areasymbol <- "CA649"
+uprojectid <- "2021-2SON-MLRA-006"
+
+# get mus in project of interest, correlated on legend of interest
+pmus <- get_projectmapunits_by_uprojectid(uprojectid, areasymbol)
+
+# get whole legend of interest
+lmus <- get_lmapunit_by_areasymbol(areasymbol)
+
+# connect to sqlite db
+con <- dbConnect(RSQLite::SQLite(), tabular_file)
+
+# query cointerps
+cointerp <- get_SSURGO_cointerp(con, close = FALSE)
+
+# get key map
+keymap <- get_SSURGO_component_keys(con, close = FALSE)
+```
+
+```{r, results='asis'}
+cat("**SSURGO Tabular Source:** <i>", tabular_path, "</i>\n\n")
+cat("**SQLite Database:** <i>", tabular_file, "</i>\n\n")
+
+cat("###", areasymbol, "\n")
+cat("#### <b>", uprojectid, "</b>-", unique(pmus$projectname), "\n")
+
+# use SWR unique seqnums to identify old vs new
+pmus_new <- subset(pmus, seqnum.2 == 500)
+pmus_old <- subset(pmus, seqnum.2 == 2021)
+
+# or use legend mapunit additional status
+# pmus_old[pmus_old$lmapunitiid %in% lmus[lmus$mustatus == 4,]$lmapunitiid,]
+# pmus_new[pmus_new$lmapunitiid %in% lmus[lmus$mustatus == 3,]$lmapunitiid,]
+
+# OR use nonrep DMUs in mapunit
+
+# subset cointerps based on old vs new mapunits
+cointerp_new <- subset(cointerp, mukey %in% pmus_new$lmapunitiid)
+cointerp_old <- subset(cointerp, mukey %in% pmus_old$lmapunitiid)
+rules <- unique(cointerp$mrulename)
+
+cat("##### Number of mapunits (before):", length(unique(cointerp_old$mukey)), "\n")
+cat("##### Number of components (before):", length(unique(cointerp_old$cokey)), "\n")
+cat("##### Number of mapunits (after):", length(unique(cointerp_new$mukey)), "\n")
+cat("##### Number of components (after):", length(unique(cointerp_new$cokey)), "\n")
+
+# cat("##### Number of miscellaneous areas (before)", zzz, "\n")
+# cat("##### Number of miscellaneous areas (after)", zzz, "\n")
+
+# area all (proportions of rated) interp classes the same?
+x <- lapply(seq_along(rules)[1:10], function(i) {
+
+  x1 <- subset(cointerp_old, mrulename == rules[i])
+  x2 <- subset(cointerp_new, mrulename == rules[i])
+ 
+  k1 <- subset(keymap, cokey %in% x1$cokey)
+  k2 <- subset(keymap, cokey %in% x2$cokey)
+  
+  # coarse comparison of proportions in each RV rating class
+  before <- table(x1$interphrc)
+  before_nr <- table(x1$interphrc, exclude = "Not rated")
+  after <-  table(x2$interphrc)
+  after_nr <- table(x2$interphrc, exclude = "Not rated")
+  res1 <- all.equal(prop.table(before), prop.table(after))
+  res2 <- all.equal(prop.table(before_nr),
+                    prop.table(after_nr))
+  
+  # if no match in coarse interp rating classes
+  if (!is.logical(res2)){
+    # get the reasons
+    reasons <- get_SSURGO_interp_reasons_by_mrulename(con, mrulename = rules[1], close = FALSE)
+    
+    r1 <- subset(reasons, cokey %in% cointerp_new$cokey)
+    r2 <- subset(reasons, cokey %in% cointerp_old$cokey)
+    
+    newreasons <- table(r1$Reasons)
+    oldreasons <- table(r2$Reasons)
+    
+    # old reasons that are not in new reasons
+    oldnotnew <- oldreasons[!names(oldreasons) %in% names(newreasons)]
+    
+    # new reasons that are in old reasons
+    newinold <-  newreasons[names(newreasons) %in% names(oldreasons)]
+    
+    # new reasons that are not in old reasons
+    newnotold <- newreasons[!names(newreasons) %in% names(oldreasons)]
+    
+    # get the reasons
+    # new <- r1[r1$cokey %in% unique(r1$cokey, names(newnotold)),]
+    # old <- r2[r2$cokey %in% unique(r2$cokey, names(newnotold)),]
+
+    cat("#### -----------------------------------------------------------")
+    cat(rules[i], "\n\n")
+    # cat("##### BEFORE\n")
+    print(knitr::kable(before, 
+                       col.names = c("Rating", "# Components"),
+                       caption = "Rating Class (Before)"))
+    cat("\n")
+    # cat("##### AFTER\n")
+    print(knitr::kable(after, 
+                       col.names = c("Rating", "# Components"), 
+                       caption = "Rating Class (After)"))
+    cat("###### EXPLANATION\n")
+    cat("New reasons: ", paste0(names(newnotold), collapse=", "), "\n\n")
+    cat("Existing reasons: ", paste0(names(newinold), collapse=", "), "\n\n")
+    cat("Dropped reasons: ", ifelse(length(oldnotnew) == 0, "None",
+                                    paste0(names(oldnotnew), collapse=", ")), "\n\n")
+    cat(paste0(res1[length(res1)], "\n"),"\n")
+    cat("Exclude not rated:", paste0(res2[length(res2)], "\n"),"\n\n")
+    cat("\n")    
+    
+    # this should show all new classes, and all not rated
+    newrating <- subset(r1[,-6],
+                        !interphrc %in% names(before_nr))
+    if (nrow(newrating) > 0){
+      print(knitr::kable(newrating, 
+                       caption = "Components with New or Not Rated Rating Class",
+                       row.names = FALSE))
+    } else {
+      cat("Now new rating classes in 'after' mapunits.\n")
+    }
+  }
+  res2
+})
+cat("## SUMMARY\n")
+cat("<b>", sum(sapply(x, is.logical)), "interpretations are unchanged in bulk rating classes.</b>\n\n")
+idx.changed <- which(!sapply(x, is.logical))
+cat("<b>",length(idx.changed), "interpretations are changed in bulk rating classes:</b>\n\n")
+x <- sapply(rules[idx.changed], function(x) cat(" -", x,"</b>\n\n"))
+DBI::dbDisconnect(con)
+```
+
+

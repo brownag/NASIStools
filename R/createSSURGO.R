@@ -9,8 +9,10 @@
 #'
 #' @return an invisible named list of data.frame. If `output_path` is not `NULL` logical; `TRUE` all tables are written to path
 #' @export
+#' @importFrom RSQLite SQLite
 #' @importFrom stats aggregate
 #' @importFrom utils head read.table
+#' @importFrom DBI dbConnect dbWriteTable
 createSSURGO <- function(dsn, output_path = NULL, overwrite = FALSE, append = FALSE) {
 
   # if we are given a path to a "tabular" folder
