@@ -21,7 +21,7 @@
   lut <- .the_lut(x, from = from, ...)
   res <- lut[, to, drop = FALSE][match(x, lut[[from]]),]
   if (verbose) sapply(res, cat, "\n")
-  invisible(res)
+  res
 }
 
 musym_to_nmusym <- function(x, from = 'musym', to = "nationalmusym", ...) {
@@ -43,6 +43,19 @@ musym_to_muname <- function(x, from = 'musym', to = "muname", ...) {
 musym_to_all <- function(x, from = 'musym', to = c("areasymbol", "musym", "nationalmusym", "lmapunitiid", "muiid", "muname", "dmuiid"), ...) {
   as.data.frame(.do_lut(x, from, to, ...))
 }
+
+internal_component_key <- function(nationalmusym, compname, comppct_r) {
+  paste0(nationalmusym, compname, comppct_r)
+}
+
+ick_to_coiid <- function(ick) {
+  soilDB::dbQueryNASIS(NASIS(), paste0("SELECT coiid FROM mapunit
+                                        INNER JOIN correlation ON correlation.muiidref = mapunit.muiid
+                                        INNER JOIN datamapunit ON correlation.dmuiidref = datamapunit.dmuiid AND repdmu = 1
+                                        INNER JOIN component ON component.dmuiidref = datamapunit.dmuiid
+                                        WHERE CONCAT(nationalmusym, compname, comppct_r) IN ", format_SQL_in_statement(ick)))
+}
+
 #
 # nusyms <- c("7103", "7102", "8173", "7091", "7092", "8172", "8173", "7103",
 #   "7103", "8171", "8172", "8173", "8171", "8172", "8173", "8172",
