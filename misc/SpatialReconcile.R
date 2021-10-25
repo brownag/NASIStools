@@ -44,23 +44,79 @@ raster::plot(rasts[[1]])
 raster::plot(rasts[[2]])
 raster::plot(rasts[[3]])
 
+res649 <- lapply(mucode_lut[grepl("CA649", names(mucode_lut))], function(x) {
+  amask <- raster::mask(rasts[[3]], rasts[[3]], inverse = TRUE, maskvalue = x)
+  spnewcodes <- raster::values(raster::mask(rasts[[1]], amask))
+  sort(round(prop.table(table(mucode_inv[spnewcodes])) * 100), decreasing=TRUE)
+})
+names(res649) <- names(mucode_lut)[grepl("CA649", names(mucode_lut))]
+
+res649inv <- lapply(mucode_lut[grepl("CA649", names(mucode_lut))], function(x) {
+  amask <- raster::mask(rasts[[1]], rasts[[1]], inverse = TRUE, maskvalue = x)
+  spnewcodes <- raster::values(raster::mask(rasts[[3]], amask))
+  sort(round(prop.table(table(mucode_inv[spnewcodes])) * 100), decreasing=TRUE)
+})
+names(res649inv) <- names(mucode_lut)[grepl("CA649", names(mucode_lut))]
+
+# all mapunits that contributed to 7103
+mucode <- "CA6497103"
+ret <- res649[[mucode]][res649[[mucode]] > 0]
+data.frame(mucode = ret)
+
+after <- do.call('rbind', lapply(names(mucode_lut[grepl("CA649", names(mucode_lut))]), function(x) {
+  ret <- res649[[x]][res649[[x]] >= 0]
+  if (length(ret) == 0)
+    return(NULL)
+  data.frame(after = x, before = names(ret), percentage_of_after = as.numeric(ret))
+}))
+
+before <- do.call('rbind', lapply(names(mucode_lut[grepl("CA649", names(mucode_lut))]), function(x) {
+  ret <- res649inv[[x]][res649inv[[x]] >= 0]
+  if (length(ret) == 0)
+    return(NULL)
+  data.frame(before = x, after = names(ret), percentage_of_before = as.numeric(ret))
+}))
+
+write.csv(after, "after.csv")
+write.csv(before, "before.csv")
+
+# all mapunits that Brf2 contributed to
+mucode <- "CA649BrF2"
+ret <- res649inv[[mucode]][res649inv[[mucode]] >= 1]
+data.frame(mucode = ret)
+
 # ca649
 # amask <- raster::mask(rasts[[2]], rasts[[2]], inverse = TRUE,
 #                       maskvalue = mucode_lut["CA649JeF2"])
 # spnewcodes <- raster::values(raster::mask(rasts[[3]], amask))
+#
+amask <- raster::mask(rasts[[3]], rasts[[3]], inverse = TRUE,
+                      maskvalue = mucode_lut["CA6497091"])
+spnewcodes <- raster::values(raster::mask(rasts[[1]], amask))
 
 #CA731
 # amask <- raster::mask(rasts[[4]], rasts[[4]], inverse = TRUE,
 #                       maskvalue = mucode_lut["CA731BeFma"])
 # spnewcodes <- raster::values(raster::mask(rasts[[5]], amask))
+# amask <- raster::mask(rasts[[5]], rasts[[5]], inverse = TRUE,
+#                       maskvalue = mucode_lut["CA7317103"])
+# spnewcodes <- raster::values(raster::mask(rasts[[4]], amask))
 
+#
 # ca750
 # amask <- raster::mask(rasts[[6]], rasts[[6]], inverse = TRUE,
 #                       maskvalue = mucode_lut["CA750JcFma"])
 # spnewcodes <- raster::values(raster::mask(rasts[[7]], amask))
-# sort(round(prop.table(table(mucode_inv[spnewcodes])) * 100), decreasing=TRUE)
-
+# amask <- raster::mask(rasts[[7]], rasts[[7]], inverse = TRUE,
+#                       maskvalue = mucode_lut["CA7508162"])
+# spnewcodes <- raster::values(raster::mask(rasts[[6]], amask))
+sort(round(prop.table(table(mucode_inv[spnewcodes])) * 100), decreasing=TRUE)
+muprop <- sort(prop.table(table(mucode_inv[spnewcodes])), decreasing=TRUE)
+muprop
+foo <- sapply(gsub("[A-Z]{2}[0-9]{3}(.*)", "\\1", names(muprop)), function(x) {cat(x, "\n"); x})
+dput(as.character(foo))
 # get boundaries
+
 
 byarea <- split(gdbs, f = gdbs$areasymbol)
 area_change <- vector('list', length(byarea))

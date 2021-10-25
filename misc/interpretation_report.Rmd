@@ -18,11 +18,34 @@ if (!file.exists(tabular_file))
   createSSURGO(dsn = tabular_path,
                output_path = tabular_file)
 
-areasymbol <- "CA649"
+areasymbol <- c("CA649","CA750","CA731")
 uprojectid <- "2021-2SON-MLRA-006"
+musym_target <- c("7087","BeF","BeFma")
+# musym_target <- c("7091","AnE","BeF","BeFma","TbFma","BrF2")
+# musym_target <- c("7091","BrF2")
+# musym_target <- c("7092","BrF3")
+# compare new mapunits to others
+# musym_target <- c("7102","BrF2","BrFma")
+# musym_target <- c("7102","BrF3")
+# musym_target <- c("7103","BrF2")
+# musym_target <- c("7103","BrF3")
+# musym_target <- c("7103","BrG2")
+# musym_target <- c("8162","JdG2","172")
+musym_target <- c("8171","JcD2","JbD2")
+# musym_target <- c("8172","JeF2","JcF2","JcE2","JbE2")
+# musym_target <- c("8173","JcF2","JdG2","BrF2","JeF2","JbF2","BrF3")
+
+lut <- NASIStools:::musym_to_all(musym_target)
 
 # get mus in project of interest, correlated on legend of interest
 pmus <- get_projectmapunits_by_uprojectid(uprojectid, areasymbol)
+pmus_new <- subset(pmus, seqnum.2 == 500)
+pmus_old <- subset(pmus, seqnum.2 == 2021)
+pmus_new <- subset(pmus_new, nationalmusym %in% unique(lut$nationalmusym))
+pmus_old <- subset(pmus_old, nationalmusym %in% unique(lut$nationalmusym))
+if (nrow(pmus_old) == 0) {
+  pmus_old <- subset(pmus, seqnum.2 == 2021)
+}
 
 # get whole legend of interest
 lmus <- get_lmapunit_by_areasymbol(areasymbol)
@@ -31,7 +54,7 @@ lmus <- get_lmapunit_by_areasymbol(areasymbol)
 con <- dbConnect(RSQLite::SQLite(), tabular_file)
 
 # query cointerps
-cointerp <- get_SSURGO_cointerp(con, close = FALSE)
+cointerp <- get_SSURGO_cointerp(con, close = FALSE, ruledepth = 1)
 
 # get key map
 keymap <- get_SSURGO_component_keys(con, close = FALSE)
@@ -43,11 +66,16 @@ cat("**SQLite Database:** <i>", tabular_file, "</i>\n\n")
 
 cat("###", areasymbol, "\n")
 cat("#### <b>", uprojectid, "</b>-", unique(pmus$projectname), "\n")
+```
 
+```{r}
 # use SWR unique seqnums to identify old vs new
-pmus_new <- subset(pmus, seqnum.2 == 500)
-pmus_old <- subset(pmus, seqnum.2 == 2021)
+tablecols <- c("areasymbol","nationalmusym","musym","lmapunitiid","muiid","uprojectid","muname")
+print(knitr::kable(pmus_new[,tablecols], row.names = FALSE, caption = "NEW MAPUNIT"))
+print(knitr::kable(pmus_old[,tablecols], row.names = FALSE, caption = "REPLACED MAPUNIT(S)"))
+```
 
+```{r, results='asis'}
 # or use legend mapunit additional status
 # pmus_old[pmus_old$lmapunitiid %in% lmus[lmus$mustatus == 4,]$lmapunitiid,]
 # pmus_new[pmus_new$lmapunitiid %in% lmus[lmus$mustatus == 3,]$lmapunitiid,]
@@ -68,7 +96,7 @@ cat("##### Number of components (after):", length(unique(cointerp_new$cokey)), "
 # cat("##### Number of miscellaneous areas (after)", zzz, "\n")
 
 # area all (proportions of rated) interp classes the same?
-x <- lapply(seq_along(rules)[1:10], function(i) {
+x <- lapply(seq_along(rules), function(i) {
 
   x1 <- subset(cointerp_old, mrulename == rules[i])
   x2 <- subset(cointerp_new, mrulename == rules[i])
@@ -88,7 +116,7 @@ x <- lapply(seq_along(rules)[1:10], function(i) {
   # if no match in coarse interp rating classes
   if (!is.logical(res2)){
     # get the reasons
-    reasons <- get_SSURGO_interp_reasons_by_mrulename(con, mrulename = rules[1], close = FALSE)
+    reasons <- get_SSURGO_interp_reasons_by_mrulename(con, mrulename = rules[1], n=1,close = FALSE)
     
     r1 <- subset(reasons, cokey %in% cointerp_new$cokey)
     r2 <- subset(reasons, cokey %in% cointerp_old$cokey)
@@ -109,40 +137,47 @@ x <- lapply(seq_along(rules)[1:10], function(i) {
     # new <- r1[r1$cokey %in% unique(r1$cokey, names(newnotold)),]
     # old <- r2[r2$cokey %in% unique(r2$cokey, names(newnotold)),]
 
-    cat("#### -----------------------------------------------------------")
+    cat("#### -----------------------------------------------------------\n")
     cat(rules[i], "\n\n")
     # cat("##### BEFORE\n")
-    print(knitr::kable(before, 
+    if (length(before))
+      print(knitr::kable(before, 
                        col.names = c("Rating", "# Components"),
                        caption = "Rating Class (Before)"))
     cat("\n")
     # cat("##### AFTER\n")
-    print(knitr::kable(after, 
+    if (length(after))
+      print(knitr::kable(after, 
                        col.names = c("Rating", "# Components"), 
                        caption = "Rating Class (After)"))
-    cat("###### EXPLANATION\n")
-    cat("New reasons: ", paste0(names(newnotold), collapse=", "), "\n\n")
-    cat("Existing reasons: ", paste0(names(newinold), collapse=", "), "\n\n")
-    cat("Dropped reasons: ", ifelse(length(oldnotnew) == 0, "None",
+    cat("\n\n###### EXPLANATION\n\n")
+    cat("\tNew reasons: ", paste0(names(newnotold), collapse=", "), "\n\n")
+    cat("\tExisting reasons: ", paste0(names(newinold), collapse=", "), "\n\n")
+    cat("\tDropped reasons: ", ifelse(length(oldnotnew) == 0, "None",
                                     paste0(names(oldnotnew), collapse=", ")), "\n\n")
-    cat(paste0(res1[length(res1)], "\n"),"\n")
-    cat("Exclude not rated:", paste0(res2[length(res2)], "\n"),"\n\n")
+    .explainerror <- function(x) {
+      idx1 <- grep("^Numeric: lengths .* differ$", "Numeric: lengths (2, 1) differ", x)
+      x[idx1] <- " - Different number of rating classes in before/after mapunits"
+      x
+    }
+    cat(paste0("\t\t", .explainerror(res1[length(res1)]), "\n"), "\n")
+    cat("\tExclude 'Not rated':\n", 
+        paste0("\t\t", .explainerror(res2[length(res2)]), "\n"), "\n\n")
     cat("\n")    
     
     # this should show all new classes, and all not rated
-    newrating <- subset(r1[,-6],
-                        !interphrc %in% names(before_nr))
+    newrating <- subset(r1[,-6],  !interphrc %in% names(before_nr))
     if (nrow(newrating) > 0){
       print(knitr::kable(newrating, 
                        caption = "Components with New or Not Rated Rating Class",
                        row.names = FALSE))
     } else {
-      cat("Now new rating classes in 'after' mapunits.\n")
+      cat("No new rating classes in 'after' mapunits.\n\n\n")
     }
   }
   res2
 })
-cat("## SUMMARY\n")
+cat("\n\n--------------\n\n## SUMMARY\n")
 cat("<b>", sum(sapply(x, is.logical)), "interpretations are unchanged in bulk rating classes.</b>\n\n")
 idx.changed <- which(!sapply(x, is.logical))
 cat("<b>",length(idx.changed), "interpretations are changed in bulk rating classes:</b>\n\n")
