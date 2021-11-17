@@ -17,6 +17,7 @@ create_import_template <- function(.data,
   stopifnot(is.character(template_name))
   stopifnot(is.character(columns))
   stopifnot(length(columns) > 1)
+
   x <- c(paste0(c(template_name, paste0("=", shQuote(template_version)),
                   rep("", length(columns) - 2)), collapse = ","),
          paste0(rep(",", length(columns)), collapse = ""),
@@ -37,6 +38,11 @@ create_import_template <- function(.data,
 #' @export
 #' @rdname ecosite-import
 create_ESD_ecosites_import <- function(file, coiids, ecositeids) {
+
+  if (any(aggregate(ecositeids, list(coiids), function(x) length(unique(x)))$x > 1)) {
+    warning("Some component IDs have more than one unique ecosite assigned; this can happen if different ecosites are assigned a component that exists on multiple legends. Note that the relationship between coiid and unique ecosite IDs should be 1:1.", call. = FALSE)
+  }
+
   create_import_template(
     unique(data.frame(coiid = coiids,
                       Ecosite_ID = ecositeids)),
