@@ -6,7 +6,7 @@
 #' @param columns columns in template
 #' @param template_version template version; default: `"1.0"`
 #' @details Column names containing `"_"` are converted to `" "`
-#' @return writes CSV file
+#' @return writes XLSX or CSV file
 #' @export
 create_import_template <- function(.data,
                                    file,
@@ -18,23 +18,41 @@ create_import_template <- function(.data,
   stopifnot(is.character(columns))
   stopifnot(length(columns) > 1)
 
-  x <- c(paste0(c(template_name, paste0("=", shQuote(template_version)),
+  stopifnot(endsWith(file, ".csv") || endsWith(file, ".xlsx"))
+
+  as_xlsx <- endsWith(file, ".xlsx")
+
+  x <- c(paste0(c(template_name, template_version,
                   rep("", length(columns) - 2)), collapse = ","),
          paste0(rep(",", length(columns)), collapse = ""),
-         paste0(shQuote(gsub("_", " ", columns)), collapse = ","),
+         paste0(gsub("_", " ", columns), collapse = ","),
          paste0(apply(.data[, columns, drop = FALSE], 1, paste0, collapse = ",")))
-  writeLines(x, file)
+
+  if (as_xlsx) {
+
+    if (!requireNamespace("openxlsx"))
+      stop("The openxlsx package is required to write XLSX files", call. = FALSE)
+
+    wb <- openxlsx::createWorkbook()
+    openxlsx::addWorksheet(wb, "Sheet1")
+
+    mat <- do.call('rbind', sapply(x, strsplit, ","))
+    lapply(1:ncol(mat), function(i) {
+      openxlsx::writeData(wb, "Sheet1", x = mat[,i], xy = c(i, 1))
+    })
+    openxlsx::saveWorkbook(wb, file, overwrite = TRUE)
+  } else writeLines(x, file)
 }
 
 #' Create Ecosite / Ecosite Note Import Files
 #'
-#' @param file output file name
+#' @param file output file name (either .XLSX or .CSV)
 #' @param coiids vector of component IDs
 #' @param ecositeids vector of ecological site IDs
 #' @param author author of note
 #' @param notes note content
 #'
-#' @return writes CSV file
+#' @return writes XLSX or CSV file
 #' @export
 #' @rdname ecosite-import
 create_ESD_ecosites_import <- function(file, coiids, ecositeids) {

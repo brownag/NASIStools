@@ -24,7 +24,7 @@ create_import_template(
 \item{template_version}{template version; default: \code{"1.0"}}
 }
 \value{
-writes CSV file
+writes XLSX or CSV file
 }
 \description{
 Create NASIS import template

@@ -10,7 +10,7 @@ create_ESD_ecosites_import(file, coiids, ecositeids)
 create_ESD_notes_import(file, coiids, author, notes)
 }
 \arguments{
-\item{file}{output file name}
+\item{file}{output file name (either .XLSX or .CSV)}
 
 \item{coiids}{vector of component IDs}
 
@@ -21,7 +21,7 @@ create_ESD_notes_import(file, coiids, author, notes)
 \item{notes}{note content}
 }
 \value{
-writes CSV file
+writes XLSX or CSV file
 }
 \description{
 Create Ecosite / Ecosite Note Import Files
