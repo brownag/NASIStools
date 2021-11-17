@@ -2,6 +2,7 @@
 #' get_projectmapunits_by_uprojectid
 #'
 #' @param uprojectid vector of user project IDs
+#' @param areasymbol Soil Survey Legend areasymbol to include in WHERE clause; Default: `NULL` is no constraint on areasymbol
 #' @param dsn data source name, default is `soilDB::NASIS()` _OdbcConnection_
 #'
 #' @return data.frame result

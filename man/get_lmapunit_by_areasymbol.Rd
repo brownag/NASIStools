@@ -4,12 +4,12 @@
 \alias{get_lmapunit_by_areasymbol}
 \title{get_lmapunit_by_areasymbol}
 \usage{
-get_lmapunit_by_areasymbol(dsn = soilDB::NASIS(), areasymbol)
+get_lmapunit_by_areasymbol(areasymbol, dsn = soilDB::NASIS())
 }
 \arguments{
-\item{dsn}{data source name, default is \code{soilDB::NASIS()} \emph{OdbcConnection}}
-
 \item{areasymbol}{vector of areasymbols}
+
+\item{dsn}{data source name, default is \code{soilDB::NASIS()} \emph{OdbcConnection}}
 }
 \value{
 data.frame result

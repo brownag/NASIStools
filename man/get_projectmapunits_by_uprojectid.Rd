@@ -4,12 +4,18 @@
 \alias{get_projectmapunits_by_uprojectid}
 \title{get_projectmapunits_by_uprojectid}
 \usage{
-get_projectmapunits_by_uprojectid(dsn = soilDB::NASIS(), uprojectid)
+get_projectmapunits_by_uprojectid(
+  uprojectid,
+  areasymbol = NULL,
+  dsn = soilDB::NASIS()
+)
 }
 \arguments{
-\item{dsn}{data source name, default is \code{soilDB::NASIS()} \emph{OdbcConnection}}
-
 \item{uprojectid}{vector of user project IDs}
+
+\item{areasymbol}{Soil Survey Legend areasymbol to include in WHERE clause; Default: \code{NULL} is no constraint on areasymbol}
+
+\item{dsn}{data source name, default is \code{soilDB::NASIS()} \emph{OdbcConnection}}
 }
 \value{
 data.frame result
