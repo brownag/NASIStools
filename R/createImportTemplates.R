@@ -38,7 +38,7 @@ create_import_template <- function(.data,
 
     mat <- do.call('rbind', sapply(x, strsplit, ","))
     lapply(1:ncol(mat), function(i) {
-      openxlsx::writeData(wb, "Sheet1", x = mat[,i], xy = c(i, 1))
+      openxlsx::writeData(wb, "Sheet1", x = trimws(mat[,i]), xy = c(i, 1))
     })
     openxlsx::saveWorkbook(wb, file, overwrite = TRUE)
   } else writeLines(x, file)
