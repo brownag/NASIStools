@@ -9,7 +9,8 @@ create_import_template(
   file,
   template_name,
   columns,
-  template_version = "1.0"
+  template_version = "1.0",
+  sheet = "Sheet1"
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ create_import_template(
 \item{columns}{columns in template}
 
 \item{template_version}{template version; default: \code{"1.0"}}
+
+\item{sheet}{Default XLSX sheet name \code{"Sheet1"}}
 }
 \value{
 writes XLSX or CSV file

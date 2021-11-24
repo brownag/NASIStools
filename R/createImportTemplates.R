@@ -5,6 +5,7 @@
 #' @param template_name template name
 #' @param columns columns in template
 #' @param template_version template version; default: `"1.0"`
+#' @param sheet Default XLSX sheet name `"Sheet1"`
 #' @details Column names containing `"_"` are converted to `" "`
 #' @return writes XLSX or CSV file
 #' @export
@@ -12,7 +13,8 @@ create_import_template <- function(.data,
                                    file,
                                    template_name,
                                    columns,
-                                   template_version = "1.0") {
+                                   template_version = "1.0",
+                                   sheet = "Sheet1") {
 
   stopifnot(is.character(template_name))
   stopifnot(is.character(columns))
@@ -23,7 +25,7 @@ create_import_template <- function(.data,
   as_xlsx <- endsWith(file, ".xlsx")
 
   x <- c(paste0(c(template_name, template_version,
-                  rep("", length(columns) - 2)), collapse = ","),
+                  rep("", length(columns) - 1)), collapse = ","),
          paste0(rep(",", length(columns)), collapse = ""),
          paste0(gsub("_", " ", columns), collapse = ","),
          paste0(apply(.data[, columns, drop = FALSE], 1, paste0, collapse = ",")))
@@ -34,11 +36,11 @@ create_import_template <- function(.data,
       stop("The openxlsx package is required to write XLSX files", call. = FALSE)
 
     wb <- openxlsx::createWorkbook()
-    openxlsx::addWorksheet(wb, "Sheet1")
+    openxlsx::addWorksheet(wb, sheet = sheet)
 
     mat <- do.call('rbind', sapply(x, strsplit, ","))
     lapply(1:ncol(mat), function(i) {
-      openxlsx::writeData(wb, "Sheet1", x = trimws(mat[,i]), xy = c(i, 1))
+      openxlsx::writeData(wb, sheet = sheet, x = trimws(mat[,i]), xy = c(i, 1))
     })
     openxlsx::saveWorkbook(wb, file, overwrite = TRUE)
   } else writeLines(x, file)
@@ -51,6 +53,9 @@ create_import_template <- function(.data,
 #' @param ecositeids vector of ecological site IDs
 #' @param author author of note
 #' @param notes note content
+#' @param template a `sprintf()`-style format string up to 8192 bytes in length
+#' @param ... values to be passed into `template`. Only logical, integer, real and character vectors are supported.
+#' @param sheet Default XLSX sheet name `"Sheet1"`
 #'
 #' @return writes XLSX or CSV file
 #' @export
@@ -83,4 +88,18 @@ create_ESD_notes_import <- function(file, coiids, author, notes) {
     template_name = "ESDEditNote",
     columns = c("coiid", "author", "note")
   )
+}
+
+#' @export
+#' @rdname ecosite-import
+create_note_from_ESD_ecosites <- function(file, template, ..., sheet = "Sheet1") {
+  stopifnot(requireNamespace("openxlsx"))
+  x <- openxlsx::read.xlsx(file, sheet = sheet)
+  x <- x[3:nrow(x),]
+  colnames(x) <- c("coiid","Ecosite ID")
+  lutdf <- soilDB::dbQueryNASIS(soilDB::NASIS(), paste0("SELECT DISTINCT ecositeid, ecositenm FROM ecologicalsite WHERE ecositeid IN ", soilDB::format_SQL_in_statement(x$`Ecosite ID`)))
+  lut <- lutdf$ecositenm
+  names(lut) <- lutdf$ecositeid
+  x$note <- sprintf(template, x$`Ecosite ID`, lut[x$`Ecosite ID`], ...)
+  x
 }

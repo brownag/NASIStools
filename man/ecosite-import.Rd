@@ -3,11 +3,14 @@
 \name{create_ESD_ecosites_import}
 \alias{create_ESD_ecosites_import}
 \alias{create_ESD_notes_import}
+\alias{create_note_from_ESD_ecosites}
 \title{Create Ecosite / Ecosite Note Import Files}
 \usage{
 create_ESD_ecosites_import(file, coiids, ecositeids)
 
 create_ESD_notes_import(file, coiids, author, notes)
+
+create_note_from_ESD_ecosites(file, template, ..., sheet = "Sheet1")
 }
 \arguments{
 \item{file}{output file name (either .XLSX or .CSV)}
@@ -19,6 +22,12 @@ create_ESD_notes_import(file, coiids, author, notes)
 \item{author}{author of note}
 
 \item{notes}{note content}
+
+\item{template}{a \code{sprintf()}-style format string up to 8192 bytes in length}
+
+\item{...}{values to be passed into \code{template}. Only logical, integer, real and character vectors are supported.}
+
+\item{sheet}{Default XLSX sheet name \code{"Sheet1"}}
 }
 \value{
 writes XLSX or CSV file
