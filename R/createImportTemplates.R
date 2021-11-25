@@ -36,7 +36,7 @@ create_import_template <- function(.data,
       stop("The openxlsx package is required to write XLSX files", call. = FALSE)
 
     wb <- openxlsx::createWorkbook()
-    openxlsx::addWorksheet(wb, sheet = sheet)
+    openxlsx::addWorksheet(wb, sheetName = sheet)
 
     mat <- do.call('rbind', sapply(x, strsplit, ","))
     lapply(1:ncol(mat), function(i) {
@@ -97,9 +97,7 @@ create_note_from_ESD_ecosites <- function(file, template, ..., sheet = "Sheet1")
   x <- openxlsx::read.xlsx(file, sheet = sheet)
   x <- x[3:nrow(x),]
   colnames(x) <- c("coiid","Ecosite ID")
-  lutdf <- soilDB::dbQueryNASIS(soilDB::NASIS(), paste0("SELECT DISTINCT ecositeid, ecositenm FROM ecologicalsite WHERE ecositeid IN ", soilDB::format_SQL_in_statement(x$`Ecosite ID`)))
-  lut <- lutdf$ecositenm
-  names(lut) <- lutdf$ecositeid
-  x$note <- sprintf(template, x$`Ecosite ID`, lut[x$`Ecosite ID`], ...)
+  ecositenames <- ecositeid_to_name(x$`Ecosite ID`)
+  x$note <- sprintf(template, x$`Ecosite ID`, ecositenames, ...)
   x
 }
