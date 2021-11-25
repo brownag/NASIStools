@@ -21,7 +21,8 @@ Imports:
     DBI,
     RSQLite,
     soilDB
-Suggests: 
+Suggests:
+    odbc,
     openxlsx,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
