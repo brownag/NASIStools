@@ -26,7 +26,7 @@ create_import_template <- function(.data,
 
   x <- c(paste0(c(template_name, template_version,
                   rep("", length(columns) - 1)), collapse = ","),
-         paste0(rep(",", length(columns)), collapse = ""),
+         paste0(rep("=\"\",", length(columns)), collapse = ""),
          paste0(gsub("_", " ", columns), collapse = ","),
          paste0(apply(.data[, columns, drop = FALSE], 1, paste0, collapse = ",")))
 
@@ -55,15 +55,27 @@ create_import_template <- function(.data,
 #' @param notes note content
 #' @param template a `sprintf()`-style format string up to 8192 bytes in length
 #' @param ... values to be passed into `template`. Only logical, integer, real and character vectors are supported.
-#' @param sheet Default XLSX sheet name `"Sheet1"`
+#' @param sheet Default XLSX sheet name `"ESDList"`
 #'
 #' @return writes XLSX or CSV file
 #' @export
 #' @rdname ecosite-import
+#' @examples
+#'
+#' create_ESD_ecosites_import("test_esd.xlsx", 2770865, "F018XI205CA")
+#'
+#' esdnotes <- create_note_from_ESD_ecosites("test_esd.xlsx", "Assigned %s %s")$note
+#'
+#' esdnotes
+#'
+#' create_ESD_notes_import("test_esd_note.xlsx",
+#'                         coiids = 2770865,
+#'                         author = "Andrew Brown",
+#'                         notes = esdnotes)
 create_ESD_ecosites_import <- function(file, coiids, ecositeids) {
 
   if (any(aggregate(ecositeids, list(coiids), function(x) length(unique(x)))$x > 1)) {
-    warning("Some component IDs have more than one unique ecosite assigned; this can happen if different ecosites are assigned a component that exists on multiple legends. Note that the relationship between coiid and unique ecosite IDs should be 1:1.", call. = FALSE)
+    warning("Some component IDs have more than one unique ecosite assigned; this can happen if different ecosites are assigned to a component that exists on multiple legends. Note that the relationship between coiid and unique ecosite IDs should be 1:1.", call. = FALSE)
   }
 
   create_import_template(
@@ -71,7 +83,8 @@ create_ESD_ecosites_import <- function(file, coiids, ecositeids) {
                       Ecosite_ID = ecositeids)),
     file = file,
     template_name = "ESD Ecosites",
-    columns = c("coiid", "Ecosite_ID")
+    columns = c("coiid", "Ecosite_ID"),
+    sheet = "ESDList"
   )
 }
 
@@ -86,13 +99,14 @@ create_ESD_notes_import <- function(file, coiids, author, notes) {
     )),
     file = file,
     template_name = "ESDEditNote",
-    columns = c("coiid", "author", "note")
+    columns = c("coiid", "author", "note"),
+    sheet = "ESDnote"
   )
 }
 
 #' @export
 #' @rdname ecosite-import
-create_note_from_ESD_ecosites <- function(file, template, ..., sheet = "Sheet1") {
+create_note_from_ESD_ecosites <- function(file, template, ..., sheet = "ESDList") {
   stopifnot(requireNamespace("openxlsx"))
   x <- openxlsx::read.xlsx(file, sheet = sheet)
   x <- x[3:nrow(x),]
