@@ -26,7 +26,7 @@ create_import_template <- function(.data,
 
   x <- c(paste0(c(template_name, template_version,
                   rep("", length(columns) - 1)), collapse = ","),
-         paste0(rep("=\"\",", length(columns)), collapse = ""),
+         paste0(rep(",", length(columns)), collapse = ""),
          paste0(gsub("_", " ", columns), collapse = ","),
          paste0(apply(.data[, columns, drop = FALSE], 1, paste0, collapse = ",")))
 
