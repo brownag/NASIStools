@@ -9,8 +9,9 @@ create_import_template(
   file,
   template_name,
   columns,
+  sheet,
   template_version = "1.0",
-  sheet = "Sheet1"
+  delimeter = "<delimiter|||>"
 )
 }
 \arguments{
@@ -22,9 +23,11 @@ create_import_template(
 
 \item{columns}{columns in template}
 
+\item{sheet}{XLSX sheet name}
+
 \item{template_version}{template version; default: \code{"1.0"}}
 
-\item{sheet}{Default XLSX sheet name \code{"Sheet1"}}
+\item{delimeter}{used internally for creating matrix representation for writing to file. Default: \code{"<delimiter|||>"}}
 }
 \value{
 writes XLSX or CSV file

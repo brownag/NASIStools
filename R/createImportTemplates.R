@@ -3,9 +3,10 @@
 #' @param .data a data.frame containing source data
 #' @param file output file name
 #' @param template_name template name
+#' @param sheet XLSX sheet name
 #' @param columns columns in template
 #' @param template_version template version; default: `"1.0"`
-#' @param sheet Default XLSX sheet name `"Sheet1"`
+#' @param delimeter used internally for creating matrix representation for writing to file. Default: `"<delimiter|||>"`
 #' @details Column names containing `"_"` are converted to `" "`
 #' @return writes XLSX or CSV file
 #' @export
@@ -13,8 +14,9 @@ create_import_template <- function(.data,
                                    file,
                                    template_name,
                                    columns,
+                                   sheet,
                                    template_version = "1.0",
-                                   sheet = "Sheet1") {
+                                   delimeter = "<delimiter|||>") {
 
   stopifnot(is.character(template_name))
   stopifnot(is.character(columns))
@@ -25,10 +27,11 @@ create_import_template <- function(.data,
   as_xlsx <- endsWith(file, ".xlsx")
 
   x <- c(paste0(c(template_name, template_version,
-                  rep("", length(columns) - 1)), collapse = ","),
-         paste0(rep(",", length(columns)), collapse = ""),
-         paste0(gsub("_", " ", columns), collapse = ","),
-         paste0(apply(.data[, columns, drop = FALSE], 1, paste0, collapse = ",")))
+                  rep("", length(columns) - 1)), collapse = delimeter),
+         paste0(rep(delimeter, length(columns)), collapse = ""),
+         paste0(gsub("_", " ", columns), collapse = delimeter),
+         paste0(apply(.data[, columns, drop = FALSE], 1, paste0, collapse = delimeter)))
+  mat <- do.call('rbind', sapply(x, strsplit, split = delimeter, fixed = TRUE))
 
   if (as_xlsx) {
 
@@ -38,12 +41,12 @@ create_import_template <- function(.data,
     wb <- openxlsx::createWorkbook()
     openxlsx::addWorksheet(wb, sheetName = sheet)
 
-    mat <- do.call('rbind', sapply(x, strsplit, ","))
     lapply(1:ncol(mat), function(i) {
       openxlsx::writeData(wb, sheet = sheet, x = trimws(mat[,i]), xy = c(i, 1))
     })
     openxlsx::saveWorkbook(wb, file, overwrite = TRUE)
-  } else writeLines(x, file)
+  } else utils::write.csv(.data, file, row.names = FALSE, quote = TRUE)
+
 }
 
 #' Create Ecosite / Ecosite Note Import Files

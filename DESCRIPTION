@@ -1,6 +1,6 @@
 Package: NASIStools
 Title: Tools for the USDA-NRCS National Soil Information System (NASIS)
-Version: 0.0.0.9003
+Version: 0.0.0.9004
 Authors@R: 
     c(person(given = "Andrew",
              family = "Brown",
