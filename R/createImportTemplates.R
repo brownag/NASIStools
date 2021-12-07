@@ -10,6 +10,8 @@
 #' @details Column names containing `"_"` are converted to `" "`
 #' @return writes XLSX or CSV file
 #' @export
+#'
+#' @importFrom utils write.csv
 create_import_template <- function(.data,
                                    file,
                                    template_name,
