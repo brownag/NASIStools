@@ -41,7 +41,7 @@ library(soilDB)
 
 create_ESD_ecosites_import("test_esd.xlsx", 2770865, "F018XI205CA")
 
-if (soilDB::local_NASIS_available()) {
+if (soilDB::local_NASIS_defined()) {
   esdnotes <- create_note_from_ESD_ecosites("test_esd.xlsx", "Assigned \%s \%s")$note
 
   esdnotes
