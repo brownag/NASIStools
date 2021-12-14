@@ -1,4 +1,4 @@
-#' Create NASIS import template
+#' Create NASIS XLSX Import Files
 #'
 #' @param .data a data.frame containing source data
 #' @param file output file name
@@ -51,7 +51,7 @@ create_import_template <- function(.data,
 
 }
 
-#' Create Ecosite / Ecosite Note Import Files
+#' Create Ecosite / Ecosite Note XLSX NASIS Import Files
 #'
 #' @param file output file name (either .XLSX or .CSV)
 #' @param coiids vector of component IDs

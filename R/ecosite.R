@@ -1,10 +1,10 @@
 # ecosite
 
-#' Convert Ecological Site ID to Ecological Site Name
+#' Convert Ecological Site ID to Ecological Site Name using NASIS
 #'
-#' @param x A vector of Ecological Site IDs
+#' @param x character vector of Ecological Site IDs
 #'
-#' @details Uses contents of NASIS `ecologicalsite` table
+#' @details Uses contents of local NASIS `ecologicalsite` table
 #' @export
 ecositeid_to_name <- function(x) {
   stopifnot(requireNamespace("odbc"))

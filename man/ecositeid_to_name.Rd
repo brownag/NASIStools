@@ -2,16 +2,16 @@
 % Please edit documentation in R/ecosite.R
 \name{ecositeid_to_name}
 \alias{ecositeid_to_name}
-\title{Convert Ecological Site ID to Ecological Site Name}
+\title{Convert Ecological Site ID to Ecological Site Name using NASIS}
 \usage{
 ecositeid_to_name(x)
 }
 \arguments{
-\item{x}{A vector of Ecological Site IDs}
+\item{x}{character vector of Ecological Site IDs}
 }
 \description{
-Convert Ecological Site ID to Ecological Site Name
+Convert Ecological Site ID to Ecological Site Name using NASIS
 }
 \details{
-Uses contents of NASIS \code{ecologicalsite} table
+Uses contents of local NASIS \code{ecologicalsite} table
 }

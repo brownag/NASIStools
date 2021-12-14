@@ -4,7 +4,7 @@
 \alias{create_ESD_ecosites_import}
 \alias{create_ESD_notes_import}
 \alias{create_note_from_ESD_ecosites}
-\title{Create Ecosite / Ecosite Note Import Files}
+\title{Create Ecosite / Ecosite Note XLSX NASIS Import Files}
 \usage{
 create_ESD_ecosites_import(file, coiids, ecositeids)
 
@@ -33,7 +33,7 @@ create_note_from_ESD_ecosites(file, template, ..., sheet = "ESDList")
 writes XLSX or CSV file
 }
 \description{
-Create Ecosite / Ecosite Note Import Files
+Create Ecosite / Ecosite Note XLSX NASIS Import Files
 }
 \examples{
 

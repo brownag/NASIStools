@@ -2,7 +2,7 @@
 % Please edit documentation in R/createImportTemplates.R
 \name{create_import_template}
 \alias{create_import_template}
-\title{Create NASIS import template}
+\title{Create NASIS XLSX Import Files}
 \usage{
 create_import_template(
   .data,
@@ -33,7 +33,7 @@ create_import_template(
 writes XLSX or CSV file
 }
 \description{
-Create NASIS import template
+Create NASIS XLSX Import Files
 }
 \details{
 Column names containing \code{"_"} are converted to \code{" "}
