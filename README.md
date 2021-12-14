@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/brownag/NASIStools/workflows/R-CMD-check/badge.svg)](https://github.com/brownag/NASIStools/actions)
-[![NASIStools Manual](https://img.shields.io/badge/docs-HTML-informational)](https://ncss-tech.github.io/NASIStools/)
+[![NASIStools Manual](https://img.shields.io/badge/docs-HTML-informational)](https://brownag.github.io/NASIStools/)
 <!-- badges: end -->
 
 The goal of NASIStools is to provide methods managing NASIS data, SSURGO exports, official metadata as well as to provide ports of legacy code (such as MS Access Macros) to open source alternatives. Use cases primarily relate to data model development, QA/QC of provisional data and inspection of published products. 
