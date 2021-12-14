@@ -78,28 +78,6 @@
     <p>writes XLSX or CSV file</p>
     </div>
 
-    <div id="ref-examples">
-    <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="fu">create_ESD_ecosites_import</span><span class="op">(</span><span class="st">"test_esd.xlsx"</span>, <span class="fl">2770865</span>, <span class="st">"F018XI205CA"</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required namespace: openxlsx</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">esdnotes</span> <span class="op">&lt;-</span> <span class="fu">create_note_from_ESD_ecosites</span><span class="op">(</span><span class="st">"test_esd.xlsx"</span>, <span class="st">"Assigned %s %s"</span><span class="op">)</span><span class="op">$</span><span class="va">note</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required namespace: odbc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error : nanodbc/nanodbc.cpp:1021: 00000: [unixODBC][Driver Manager]Data source name not found and no default driver specified </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no local NASIS database available</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in soilDB::dbQueryNASIS(soilDB::NASIS(), paste0("SELECT DISTINCT ecositeid, ecositenm FROM ecologicalsite WHERE ecositeid IN ",     soilDB::format_SQL_in_statement(unique(x)))):</span> Failed to connect to NASIS database!</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">esdnotes</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'esdnotes' not found</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">create_ESD_notes_import</span><span class="op">(</span><span class="st">"test_esd_note.xlsx"</span>,</span>
-<span class="r-in">                        coiids <span class="op">=</span> <span class="fl">2770865</span>,</span>
-<span class="r-in">                        author <span class="op">=</span> <span class="st">"Andrew Brown"</span>,</span>
-<span class="r-in">                        notes <span class="op">=</span> <span class="va">esdnotes</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in data.frame(coiid = coiids, author = author, note = notes):</span> object 'esdnotes' not found</span>
-</code></pre></div>
-    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
