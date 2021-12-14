@@ -67,16 +67,22 @@ create_import_template <- function(.data,
 #' @rdname ecosite-import
 #' @examples
 #'
+#' library(soilDB)
+#'
 #' create_ESD_ecosites_import("test_esd.xlsx", 2770865, "F018XI205CA")
 #'
-#' esdnotes <- create_note_from_ESD_ecosites("test_esd.xlsx", "Assigned %s %s")$note
+#' if (soilDB::local_NASIS_available())
+#'   esdnotes <- create_note_from_ESD_ecosites("test_esd.xlsx", "Assigned %s %s")$note
 #'
-#' esdnotes
+#'   esdnotes
 #'
-#' create_ESD_notes_import("test_esd_note.xlsx",
-#'                         coiids = 2770865,
-#'                         author = "Andrew Brown",
-#'                         notes = esdnotes)
+#'   create_ESD_notes_import("test_esd_note.xlsx",
+#'                           coiids = 2770865,
+#'                           author = "Andrew Brown",
+#'                           notes = esdnotes)
+#'   unlink('test_esd_note.xlsx')
+#' }
+#' unlink('test_esd.xlsx')
 create_ESD_ecosites_import <- function(file, coiids, ecositeids) {
 
   if (any(aggregate(ecositeids, list(coiids), function(x) length(unique(x)))$x > 1)) {
