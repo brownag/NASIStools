@@ -31,9 +31,6 @@
     <loc>http://brownag.github.io/NASIStools/reference/create_import_template.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/reference/denormalizeColumns.html</loc>
-  </url>
-  <url>
     <loc>http://brownag.github.io/NASIStools/reference/ecosite-import.html</loc>
   </url>
   <url>
@@ -62,5 +59,8 @@
   </url>
   <url>
     <loc>http://brownag.github.io/NASIStools/reference/remapColumns.html</loc>
+  </url>
+  <url>
+    <loc>http://brownag.github.io/NASIStools/reference/renormalizeColumns.html</loc>
   </url>
 </urlset>
