@@ -3,7 +3,7 @@
 * Added `lookupTexture()`/`lookupTextureModifier()`: helper functions for handling texture classes using NASIS metadata
 * Added `create_PedonPC_NASIS_import()`: a function based on a generalization of Jay Skovlin's USFS NRM Pedon Database migration efforts. 
   - This tool generates a flat file with the NASIS table schema for Pedon object given a list of input tables. This template is based on imports of PedonPC data into NASIS. 
-* Added `remapColumns()` and `denormalizeColumns()`: two functions useful for converting between schemas when using SoilProfileCollection or data.frame objects as an intermediate
+* Added `remapColumns()` and `renormalizeColumns()`: two functions useful for converting between schemas when using SoilProfileCollection or data.frame objects as an intermediate
 
 # NASIStools 0.0.0.9005
 

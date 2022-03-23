@@ -49,9 +49,9 @@ remapColumns <- function(x, .map) {
 #                             colorvalue = c(dry = "d_value", moist = "m_value"),
 #                             colorchroma = c(dry = "d_chroma", moist = "m_chroma")))
 # .keys <- list(phiidref = list(phcoloriid = 'colormoistst'))
-# head(denormalizeColumns(sp1_tables[['phorizon']], .map, .keys))
+# head(renormalizeColumns(sp1_tables[['phorizon']], .map, .keys))
 #
-denormalizeColumns <- function(x, .map, .keys) {
+renormalizeColumns <- function(x, .map, .keys) {
 
   # TODO: iterate over .map/.keys for multiple table results from a single x
   # for now can only do one table at a time

@@ -40,7 +40,7 @@ tables <- remapColumns(x, .map)
                             colorvalue =  c(dry = "dry_value", moist = "moist_value"),
                             colorchroma = c(dry = "dry_chroma", moist = "moist_chroma")))
 .keys <- list(phiidref = list(phcoloriid = 'colormoistst'))
-tables$phcolor <- denormalizeColumns(aqp::horizons(x), .map, .keys)
+tables$phcolor <- renormalizeColumns(aqp::horizons(x), .map, .keys)
 
 # phtexture (for "RV" values -- 1:1 with phorizon)
 tables$phtexture$phiidref <- tables$phorizon$phiid
