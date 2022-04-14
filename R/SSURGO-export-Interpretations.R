@@ -41,6 +41,7 @@ get_SSURGO_interp_reasons_by_mrulename <- function(dsn, drv = RSQLite::SQLite(),
     channel <- DBI::dbConnect(drv, dsn)
   } else {
     channel <- dsn
+    close <- FALSE
     attr(channel, 'isUserDefined') <- TRUE
   }
 
@@ -84,7 +85,7 @@ get_SSURGO_interp_reasons_by_mrulename <- function(dsn, drv = RSQLite::SQLite(),
 
   userdefined <- attributes(channel)$isUserDefined
 
-  if((is.null(userdefined) || !userdefined) && close) {
+  if ((is.null(userdefined) || !userdefined) && close) {
     DBI::dbDisconnect(channel)
   }
 
@@ -119,6 +120,7 @@ get_SSURGO_cointerp <- function(dsn, drv = RSQLite::SQLite(),
     channel <- DBI::dbConnect(drv, dsn)
   } else {
     channel <- dsn
+    close <- FALSE
     attr(channel, 'isUserDefined') <- TRUE
   }
 
@@ -158,6 +160,7 @@ get_SSURGO_component_keys <- function(dsn, drv = RSQLite::SQLite(),
     channel <- DBI::dbConnect(drv, dsn)
   } else {
     channel <- dsn
+    close <- FALSE
     attr(channel, 'isUserDefined') <- TRUE
   }
 
