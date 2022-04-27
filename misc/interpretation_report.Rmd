@@ -14,9 +14,9 @@ tabular_path <- "E:/Geodata/FY2021/2021_final_major"
 tabular_file <- paste0(tabular_path, ".sqlite")
 
 # create a SSURGO sqlite database from a snapshot
-if (!file.exists(tabular_file))
-  createSSURGO(dsn = tabular_path,
-               output_path = tabular_file)
+if (!file.exists(tabular_file)) {
+  createSSURGO(dsn = tabular_path, output_path = tabular_file)
+}
 
 areasymbol <- c("CA649","CA750","CA731")
 uprojectid <- "2021-2SON-MLRA-006"
@@ -43,6 +43,7 @@ pmus_new <- subset(pmus, seqnum.2 == 500)
 pmus_old <- subset(pmus, seqnum.2 == 2021)
 pmus_new <- subset(pmus_new, nationalmusym %in% unique(lut$nationalmusym))
 pmus_old <- subset(pmus_old, nationalmusym %in% unique(lut$nationalmusym))
+
 if (nrow(pmus_old) == 0) {
   pmus_old <- subset(pmus, seqnum.2 == 2021)
 }

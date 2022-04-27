@@ -14,9 +14,11 @@
 #' @importFrom utils head read.table
 #' @importFrom DBI dbConnect dbWriteTable
 createSSURGO <- function(dsn, output_path = NULL, overwrite = FALSE, append = FALSE) {
-
+  
+  # .Deprecated("create_SSURGO", package = "soilDB")
+  
   # if we are given a path to a "tabular" folder
-  if (dir.exists(dsn)){
+  if (dir.exists(dsn)) {
 
     # list all txt files
     f1 <- list.files(dsn, "txt")
@@ -26,10 +28,10 @@ createSSURGO <- function(dsn, output_path = NULL, overwrite = FALSE, append = FA
     }
 
     # get table list
-    x1 <- read.table(file.path(dsn, "mstab.txt"), sep="|")
+    x1 <- read.table(file.path(dsn, "mstab.txt"), sep = "|")
 
     # get column list
-    x2 <- read.table(file.path(dsn, "mstabcol.txt"), sep="|")
+    x2 <- read.table(file.path(dsn, "mstabcol.txt"), sep = "|")
 
     # read in tables by name from text files
     x3 <- lapply(file.path(dsn, paste0(x1$V5, ".txt")), function(x) {

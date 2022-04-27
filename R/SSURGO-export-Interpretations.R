@@ -37,16 +37,13 @@ get_SSURGO_interp_reasons_by_mrulename <- function(dsn, drv = RSQLite::SQLite(),
   # channel <- DBI::dbConnect(odbc::odbc(),
   #     .connection_string = paste0("Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=", dsn))
 
-  if (!inherits(dsn, 'DBIConnection')) {
+  if (is.character(dsn)) {
     channel <- DBI::dbConnect(drv, dsn)
-  } else {
+  } else if (inherits(dsn, 'DBIConnection')) {
     channel <- dsn
     close <- FALSE
     attr(channel, 'isUserDefined') <- TRUE
   }
-
-
-  channel <- dsn
 
   # 1:1 with cointerp ruledepth = 0
   cointerpbase <- get_SSURGO_cointerp(channel, mrulename = mrulename, ruledepth = 0, close = FALSE)
@@ -57,14 +54,14 @@ get_SSURGO_interp_reasons_by_mrulename <- function(dsn, drv = RSQLite::SQLite(),
   # TODO: allow extend "reasons" to rules with ruledepth > 1?
 
   # get component data up to legend
-  res2 <- DBI::dbGetQuery(channel, "SELECT legend.lkey, mapunit.mukey,
+  res2 <- data.table::data.table(DBI::dbGetQuery(channel, "SELECT legend.lkey, mapunit.mukey,
                                            mapunit.mukey AS lmapunitiid,
                                            component.cokey,
                                            mustatus, musym, muname,
                                            compname, comppct_r
                                     FROM legend
          INNER JOIN mapunit ON mapunit.lkey = legend.lkey
-         INNER JOIN component ON component.mukey = mapunit.mukey")
+         INNER JOIN component ON component.mukey = mapunit.mukey"))
 
   # unique "cokey" is mukey (SSURGO) / lmapunitiid (NASIS) ":" coiid (NASIS)
 
@@ -78,8 +75,8 @@ get_SSURGO_interp_reasons_by_mrulename <- function(dsn, drv = RSQLite::SQLite(),
   cointerpbase$coiid <- as.integer(gsub(".*:(\\d+)", "\\1", cointerpbase$cokey))
 
   # extract the "high representative" rating and class for 0th level rule
-  high_rep_rating_class <- cointerpbase[,c("lmapunitiid","coiid","interphr","interphrc")]
-  colnames(high_rep_rating_class) <- c("lmapunitiid","coiid","interphr","interphrc")
+  high_rep_rating_class <- cointerpbase[, c("lmapunitiid", "coiid", "mrulename", "interphr", "interphrc")]
+  colnames(high_rep_rating_class) <- c("lmapunitiid", "coiid", "mrulename", "interphr", "interphrc")
 
   .SD <- NULL
 
@@ -90,10 +87,9 @@ get_SSURGO_interp_reasons_by_mrulename <- function(dsn, drv = RSQLite::SQLite(),
   }
 
   # flatten the reasons so they are 1:1 with component, join to lookup tables
-  as.data.frame(cointerplvl1[, list(Reasons = paste0(head(.SD[["interphrc"]], n), collapse = "; ")),
-                    by = c("lmapunitiid", "coiid")][res2,
-                    on = c("lmapunitiid", "coiid")][high_rep_rating_class,
-                    on = c("lmapunitiid", "coiid")])
+  as.data.frame(merge(merge(res2, high_rep_rating_class, by = c("lmapunitiid", "coiid"), all = TRUE), 
+                      cointerplvl1[, list(Reasons = paste0(paste0(head(.SD[["rulename"]], n), " [", head(.SD[["interphrc"]], n), " (",head(.SD[["interphr"]], n), ")]"), collapse = "; ")), by = c("lmapunitiid", "coiid")],
+                      by = c("lmapunitiid", "coiid"), all = TRUE))
 }
 
 
@@ -116,15 +112,13 @@ get_SSURGO_cointerp <- function(dsn, drv = RSQLite::SQLite(),
                                             "cointerp.*"),
                                 mrulename = NULL, ruledepth = 0, close = TRUE) {
 
-  if (!inherits(dsn, 'DBIConnection')) {
+  if (is.character(dsn)) {
     channel <- DBI::dbConnect(drv, dsn)
-  } else {
+  } else if (inherits(dsn, 'DBIConnection')) {
     channel <- dsn
     close <- FALSE
     attr(channel, 'isUserDefined') <- TRUE
   }
-
-  channel <- dsn
 
   # 1:1 with cointerp ruledepth = 0
   q <- sprintf("SELECT %s FROM cointerp
@@ -168,7 +162,7 @@ get_SSURGO_component_keys <- function(dsn, drv = RSQLite::SQLite(),
 
   # identify the key components of the cointerp table to relate to NASIS
   cointerpkey <- data.frame(do.call('rbind', strsplit(cointerpbase$cointerpkey, ":")), musym = cointerpbase$musym)
-  colnames(cointerpkey) <- c("lmapunitiid", "coiid", "mrulekey", "seqnum" ,"musym")
+  colnames(cointerpkey) <- c("lmapunitiid", "coiid", "mrulekey", "seqnum", "musym")
 
   # the unique subset of the lmapunitiid/mukey and coiid gives us a 1:1 with components
   componentkey <- unique(cointerpkey[, c("lmapunitiid", "coiid", "musym")])
