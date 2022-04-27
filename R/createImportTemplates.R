@@ -34,7 +34,8 @@ create_import_template <- function(.data,
          paste0(gsub("_", " ", columns), collapse = delimeter),
          paste0(apply(.data[, columns, drop = FALSE], 1, paste0, collapse = delimeter)))
   mat <- do.call('rbind', sapply(x, strsplit, split = delimeter, fixed = TRUE))
-
+  mat[is.na(mat)] <- ""
+  
   if (as_xlsx) {
 
     if (!requireNamespace("openxlsx"))
