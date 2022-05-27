@@ -1,3 +1,6 @@
+# NASIStools 0.0.0.9007
+* `createSSURGO()` has been refactored, extended and moved to {soilDB}. See also `soilDB::downloadSSURGO()`.
+
 # NASIStools 0.0.0.9006
 * Added `get_NASIS_metadata()`: a function for accessing NASIS metadata with domain and choice-level granularity
 * Added `lookupTexture()`/`lookupTextureModifier()`: helper functions for handling texture classes using NASIS metadata

@@ -6,8 +6,7 @@
 \alias{NASIStools-package}
 \title{NASIStools: Tools for the USDA-NRCS National Soil Information System (NASIS)}
 \description{
-The goal of NASIStools is to provide methods managing NASIS data, SSURGO exports, official metadata as well as to provide ports of legacy code (such as MS Access Macros) to open source alternatives. Use cases primarily relate to data model development, QA/QC of provisional data and inspection of published products. 
-    This is part of a broader goal to compartmentalize low-level procedures relevant to internal (USDA) usage. Isolating lesser-used, more specific functions allows for more comprehensive testing and opportunities to focus development of the soilDB package.
+The goal of NASIStools is to provide methods managing NASIS data, SSURGO exports, official metadata as well as to provide ports of legacy code (such as MS Access Macros) to open source alternatives. Use cases primarily relate to data model development, QA/QC of provisional data and inspection of published products. This is part of a broader goal to compartmentalize low-level procedures relevant to internal (USDA) usage. Isolating lesser-used, more specific functions allows for more comprehensive testing and opportunities to focus development of the soilDB package.
 }
 \author{
 \strong{Maintainer}: Andrew Brown \email{andrew.g.brown@usda.gov}
