@@ -66,6 +66,7 @@ create_import_template <- function(.data,
 #' @return writes XLSX or CSV file
 #' @export
 #' @rdname ecosite-import
+#' @importFrom stats aggregate
 #' @examples
 #'
 #' library(soilDB)

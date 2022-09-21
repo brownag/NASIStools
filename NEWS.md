@@ -1,3 +1,6 @@
+# NASIStools 0.0.0.9008
+* `get_NASIS_metadata()` and `get_NASIS_column_metadata()` have been moved to {soilDB}.
+
 # NASIStools 0.0.0.9007
 * `createSSURGO()` has been refactored, extended and moved to {soilDB}. See also `soilDB::downloadSSURGO()`.
 

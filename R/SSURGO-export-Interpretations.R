@@ -28,6 +28,7 @@
 #' @importFrom DBI dbConnect dbGetQuery
 #' @importFrom RSQLite SQLite
 #' @importFrom soilDB format_SQL_in_statement
+#' @importFrom utils head
 get_SSURGO_interp_reasons_by_mrulename <- function(dsn, drv = RSQLite::SQLite(),
                                                    mrulename, n = 2, close = TRUE) {
   # based on VBA Function in Report Functions module of Access .mdb

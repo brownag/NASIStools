@@ -1,16 +1,9 @@
 citHeader("To cite NASIStools in publications use:")
 
 citEntry(
-  entry    = "Article",
-  title    = ,
-  author   = ,
-  journal  = ,
-  year     = ,
-  volume   = ,
-  number   = ,
-  pages    = ,
-  url      = ,
-  textVersion = paste(
-
-  )
+  entry    = "Misc",
+  title    = "NASIStools",
+  author   = "Andrew Brown",
+  url      = "https://ncss-tech.github.io/NASIStools",
+  textVersion = "Brown, A. (2022). NASIStools: Tools for the USDA-NRCS National Soil Information System (NASIS). R package version 0.0.0.9008. <https://ncss-tech.github.io/NASIStools>"
 )
