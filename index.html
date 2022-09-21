@@ -34,7 +34,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">NASIStools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9008</span>
       </span>
     </div>
 
@@ -63,7 +63,6 @@
 <div class="page-header"><h1 id="nasistools">NASIStools<a class="anchor" aria-label="anchor" href="#nasistools"></a>
 </h1></div>
 <!-- badges: start -->
-
 <p>The goal of NASIStools is to provide methods managing NASIS data, SSURGO exports, official metadata as well as to provide ports of legacy code (such as MS Access Macros) to open source alternatives. Use cases primarily relate to data model development, QA/QC of provisional data and inspection of published products.</p>
 <p>This is part of a broader goal to compartmentalize low-level procedures relevant to internal (USDA) usage. Isolating lesser-used, more specific functions allows for more comprehensive testing and opportunities to focus development of the soilDB package.</p>
 <div class="section level2">
@@ -71,60 +70,60 @@
 </h2>
 <p>Install the package off GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># get dependencies</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'remotes'</span>, <span class="st">'data.table'</span>, <span class="st">'DBI'</span>, <span class="st">'RSQLite'</span>, <span class="st">'soilDB'</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># get package using remotes</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"brownag/NASIStools"</span>, dependencies<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># get dependencies</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'remotes'</span>, <span class="st">'data.table'</span>, <span class="st">'DBI'</span>, <span class="st">'RSQLite'</span>, <span class="st">'soilDB'</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># get package using remotes</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"brownag/NASIStools"</span>, dependencies<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>Here is how to query the “reasons” for a particular interpretation <code>mrulename</code> rating for the records stored in a SSURGO SQLite database derived from a custom NASIS export.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">NASIStools</span><span class="op">)</span>
-
-<span class="co"># create a SQLite file database based on the .txt files contained in a SSURGO export</span>
-<span class="fu"><a href="reference/createSSURGO.html">createSSURGO</a></span><span class="op">(</span><span class="st">"C:/path/to/ssurgo/tabular"</span>, <span class="st">"ssurgo.sqlite"</span><span class="op">)</span>
-
-<span class="co"># specify a rule name</span>
-<span class="va">mrulename</span> <span class="op">&lt;-</span>  <span class="st">"FOR - Mechanical Site Preparation (Surface)"</span>
-
-<span class="co"># create a DBIConnection to the SQLite database</span>
-<span class="va">dsn</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html" class="external-link">SQLite</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"ssurgo.sqlite"</span><span class="op">)</span>
-
-<span class="co"># perform a query with NASIStools</span>
-<span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_SSURGO_interp_reasons_by_mrulename.html">get_SSURGO_interp_reasons_by_mrulename</a></span><span class="op">(</span><span class="va">dsn</span>, <span class="va">mrulename</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">NASIStools</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># create a SQLite file database based on the .txt files contained in a SSURGO export</span></span>
+<span><span class="fu">createSSURGO</span><span class="op">(</span><span class="st">"C:/path/to/ssurgo/tabular"</span>, <span class="st">"ssurgo.sqlite"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># specify a rule name</span></span>
+<span><span class="va">mrulename</span> <span class="op">&lt;-</span>  <span class="st">"FOR - Mechanical Site Preparation (Surface)"</span></span>
+<span></span>
+<span><span class="co"># create a DBIConnection to the SQLite database</span></span>
+<span><span class="va">dsn</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html" class="external-link">SQLite</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"ssurgo.sqlite"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># perform a query with NASIStools</span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_SSURGO_interp_reasons_by_mrulename.html">get_SSURGO_interp_reasons_by_mrulename</a></span><span class="op">(</span><span class="va">dsn</span>, <span class="va">mrulename</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://ncss-tech.github.io/AQP/" class="external-link">soilDB</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span>
-
-<span class="va">mrulename</span> <span class="op">&lt;-</span>  <span class="st">"WMS - Pond Reservoir Area"</span> 
-
-<span class="co"># "new" tabular data from a local export</span>
-<span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_SSURGO_interp_reasons_by_mrulename.html">get_SSURGO_interp_reasons_by_mrulename</a></span><span class="op">(</span><span class="va">dsn</span>, <span class="va">mrulename</span><span class="op">)</span>
-
-<span class="co"># "old" tabular data queried from SDA</span>
-<span class="va">result_ssurgo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/soilDB/man/get_SDA_interpretation.html" class="external-link">get_SDA_interpretation</a></span><span class="op">(</span><span class="va">mrulename</span>,
-                                        method <span class="op">=</span> <span class="st">"NONE"</span>,
-                                        areasymbols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CA630"</span>,<span class="st">"CA649"</span><span class="op">)</span><span class="op">)</span>
-                                        
-<span class="co"># assemble tables of mukey, compname, rating/class and reason</span>
-<span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></span><span class="op">(</span>mukey <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">mukey</span>,
-                 compname <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">compname</span>,
-                 rating_new <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">interphr</span>,
-                 rating_class <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">interphrc</span>,
-                 rating_new_reason <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">Reason</span><span class="op">)</span>
-
-<span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></span><span class="op">(</span>mukey <span class="op">=</span> <span class="va">result_ssurgo</span><span class="op">$</span><span class="va">mukey</span>,
-                 compname <span class="op">=</span> <span class="va">result_ssurgo</span><span class="op">$</span><span class="va">compname</span>,
-                 rating_old <span class="op">=</span> <span class="va">result_ssurgo</span><span class="op">$</span><span class="va">rating</span>,
-                 rating_class <span class="op">=</span> <span class="va">result_ssurgo</span><span class="op">$</span><span class="va">class</span>,
-                 rating_old_reason <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">reason_WMSPondReservoirArea</span><span class="op">)</span>
-
-<span class="va">combined_result</span> <span class="op">&lt;-</span> <span class="va">x2</span><span class="op">[</span><span class="va">x1</span>, on <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mukey"</span>,<span class="st">"compname"</span><span class="op">)</span><span class="op">]</span>
-
-<span class="va">combined_result</span><span class="op">$</span><span class="va">CHECK</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">combined_result</span><span class="op">$</span><span class="va">rating_new</span>, <span class="fl">2</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">combined_result</span><span class="op">$</span><span class="va">rating_old</span>, <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://ncss-tech.github.io/soilDB/" class="external-link">soilDB</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mrulename</span> <span class="op">&lt;-</span>  <span class="st">"WMS - Pond Reservoir Area"</span> </span>
+<span></span>
+<span><span class="co"># "new" tabular data from a local export</span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_SSURGO_interp_reasons_by_mrulename.html">get_SSURGO_interp_reasons_by_mrulename</a></span><span class="op">(</span><span class="va">dsn</span>, <span class="va">mrulename</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># "old" tabular data queried from SDA</span></span>
+<span><span class="va">result_ssurgo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ncss-tech.github.io/soilDB/reference/get_SDA_interpretation.html" class="external-link">get_SDA_interpretation</a></span><span class="op">(</span><span class="va">mrulename</span>,</span>
+<span>                                        method <span class="op">=</span> <span class="st">"NONE"</span>,</span>
+<span>                                        areasymbols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CA630"</span>,<span class="st">"CA649"</span><span class="op">)</span><span class="op">)</span></span>
+<span>                                        </span>
+<span><span class="co"># assemble tables of mukey, compname, rating/class and reason</span></span>
+<span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></span><span class="op">(</span>mukey <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">mukey</span>,</span>
+<span>                 compname <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">compname</span>,</span>
+<span>                 rating_new <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">interphr</span>,</span>
+<span>                 rating_class <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">interphrc</span>,</span>
+<span>                 rating_new_reason <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">Reason</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></span><span class="op">(</span>mukey <span class="op">=</span> <span class="va">result_ssurgo</span><span class="op">$</span><span class="va">mukey</span>,</span>
+<span>                 compname <span class="op">=</span> <span class="va">result_ssurgo</span><span class="op">$</span><span class="va">compname</span>,</span>
+<span>                 rating_old <span class="op">=</span> <span class="va">result_ssurgo</span><span class="op">$</span><span class="va">rating</span>,</span>
+<span>                 rating_class <span class="op">=</span> <span class="va">result_ssurgo</span><span class="op">$</span><span class="va">class</span>,</span>
+<span>                 rating_old_reason <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">reason_WMSPondReservoirArea</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">combined_result</span> <span class="op">&lt;-</span> <span class="va">x2</span><span class="op">[</span><span class="va">x1</span>, on <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mukey"</span>,<span class="st">"compname"</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">combined_result</span><span class="op">$</span><span class="va">CHECK</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">combined_result</span><span class="op">$</span><span class="va">rating_new</span>, <span class="fl">2</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">combined_result</span><span class="op">$</span><span class="va">rating_old</span>, <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </div>
@@ -173,7 +172,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">NASIStools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9008</span>
       </span>
     </div>
 
@@ -47,25 +47,32 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_projectmapunits_by_uprojectid</span><span class="op">(</span>
-  <span class="va">uprojectid</span>,
-  areasymbol <span class="op">=</span> <span class="cn">NULL</span>,
-  dsn <span class="op">=</span> <span class="fu">soilDB</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/soilDB/man/dbConnectNASIS.html" class="external-link">NASIS</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_projectmapunits_by_uprojectid</span><span class="op">(</span></span>
+<span>  <span class="va">uprojectid</span>,</span>
+<span>  areasymbol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  dsn <span class="op">=</span> <span class="fu">soilDB</span><span class="fu">::</span><span class="fu"><a href="https://ncss-tech.github.io/soilDB/reference/dbConnectNASIS.html" class="external-link">NASIS</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>uprojectid</dt>
 <dd><p>vector of user project IDs</p></dd>
+
+
 <dt>areasymbol</dt>
 <dd><p>Soil Survey Legend areasymbol to include in WHERE clause; Default: <code>NULL</code> is no constraint on areasymbol</p></dd>
+
+
 <dt>dsn</dt>
-<dd><p>data source name, default is <code><a href="https://rdrr.io/pkg/soilDB/man/dbConnectNASIS.html" class="external-link">soilDB::NASIS()</a></code> <em>OdbcConnection</em></p></dd>
+<dd><p>data source name, default is <code><a href="https://ncss-tech.github.io/soilDB/reference/dbConnectNASIS.html" class="external-link">soilDB::NASIS()</a></code> <em>OdbcConnection</em></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>data.frame result</p>
+    
+
+<p>data.frame result</p>
     </div>
 
   </div>
@@ -80,7 +87,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

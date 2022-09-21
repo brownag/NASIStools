@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">NASIStools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9008</span>
       </span>
     </div>
 
@@ -47,58 +47,74 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">create_ESD_ecosites_import</span><span class="op">(</span><span class="va">file</span>, <span class="va">coiids</span>, <span class="va">ecositeids</span><span class="op">)</span>
-
-<span class="fu">create_ESD_notes_import</span><span class="op">(</span><span class="va">file</span>, <span class="va">coiids</span>, <span class="va">author</span>, <span class="va">notes</span><span class="op">)</span>
-
-<span class="fu">create_note_from_ESD_ecosites</span><span class="op">(</span><span class="va">file</span>, <span class="va">template</span>, <span class="va">...</span>, sheet <span class="op">=</span> <span class="st">"ESDList"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_ESD_ecosites_import</span><span class="op">(</span><span class="va">file</span>, <span class="va">coiids</span>, <span class="va">ecositeids</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">create_ESD_notes_import</span><span class="op">(</span><span class="va">file</span>, <span class="va">coiids</span>, <span class="va">author</span>, <span class="va">notes</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">create_note_from_ESD_ecosites</span><span class="op">(</span><span class="va">file</span>, <span class="va">template</span>, <span class="va">...</span>, sheet <span class="op">=</span> <span class="st">"ESDList"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>file</dt>
 <dd><p>output file name (either .XLSX or .CSV)</p></dd>
+
+
 <dt>coiids</dt>
 <dd><p>vector of component IDs</p></dd>
+
+
 <dt>ecositeids</dt>
 <dd><p>vector of ecological site IDs</p></dd>
+
+
 <dt>author</dt>
 <dd><p>author of note</p></dd>
+
+
 <dt>notes</dt>
 <dd><p>note content</p></dd>
+
+
 <dt>template</dt>
 <dd><p>a <code><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf()</a></code>-style format string up to 8192 bytes in length</p></dd>
+
+
 <dt>...</dt>
 <dd><p>values to be passed into <code>template</code>. Only logical, integer, real and character vectors are supported.</p></dd>
+
+
 <dt>sheet</dt>
 <dd><p>Default XLSX sheet name <code>"ESDList"</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>writes XLSX or CSV file</p>
+    
+
+<p>writes XLSX or CSV file</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://ncss-tech.github.io/AQP/" class="external-link">soilDB</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">create_ESD_ecosites_import</span><span class="op">(</span><span class="st">"test_esd.xlsx"</span>, <span class="fl">2770865</span>, <span class="st">"F018XI205CA"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://ncss-tech.github.io/soilDB/" class="external-link">soilDB</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">create_ESD_ecosites_import</span><span class="op">(</span><span class="st">"test_esd.xlsx"</span>, <span class="fl">2770865</span>, <span class="st">"F018XI205CA"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required namespace: openxlsx</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu">soilDB</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/soilDB/man/local_NASIS_defined.html" class="external-link">local_NASIS_defined</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="va">esdnotes</span> <span class="op">&lt;-</span> <span class="fu">create_note_from_ESD_ecosites</span><span class="op">(</span><span class="st">"test_esd.xlsx"</span>, <span class="st">"Assigned %s %s"</span><span class="op">)</span><span class="op">$</span><span class="va">note</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="va">esdnotes</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="fu">create_ESD_notes_import</span><span class="op">(</span><span class="st">"test_esd_note.xlsx"</span>,</span>
-<span class="r-in">                          coiids <span class="op">=</span> <span class="fl">2770865</span>,</span>
-<span class="r-in">                          author <span class="op">=</span> <span class="st">"Andrew Brown"</span>,</span>
-<span class="r-in">                          notes <span class="op">=</span> <span class="va">esdnotes</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">'test_esd_note.xlsx'</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required namespace: odbc</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">'test_esd.xlsx'</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu">soilDB</span><span class="fu">::</span><span class="fu"><a href="https://ncss-tech.github.io/soilDB/reference/local_NASIS_defined.html" class="external-link">local_NASIS_defined</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">esdnotes</span> <span class="op">&lt;-</span> <span class="fu">create_note_from_ESD_ecosites</span><span class="op">(</span><span class="st">"test_esd.xlsx"</span>, <span class="st">"Assigned %s %s"</span><span class="op">)</span><span class="op">$</span><span class="va">note</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="va">esdnotes</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="fu">create_ESD_notes_import</span><span class="op">(</span><span class="st">"test_esd_note.xlsx"</span>,</span></span>
+<span class="r-in"><span>                          coiids <span class="op">=</span> <span class="fl">2770865</span>,</span></span>
+<span class="r-in"><span>                          author <span class="op">=</span> <span class="st">"Andrew Brown"</span>,</span></span>
+<span class="r-in"><span>                          notes <span class="op">=</span> <span class="va">esdnotes</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">'test_esd_note.xlsx'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">'test_esd.xlsx'</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -113,7 +129,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

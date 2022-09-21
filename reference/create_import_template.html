@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">NASIStools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9008</span>
       </span>
     </div>
 
@@ -47,37 +47,52 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">create_import_template</span><span class="op">(</span>
-  <span class="va">.data</span>,
-  <span class="va">file</span>,
-  <span class="va">template_name</span>,
-  <span class="va">columns</span>,
-  <span class="va">sheet</span>,
-  template_version <span class="op">=</span> <span class="st">"1.0"</span>,
-  delimeter <span class="op">=</span> <span class="st">"&lt;delimiter|||&gt;"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_import_template</span><span class="op">(</span></span>
+<span>  <span class="va">.data</span>,</span>
+<span>  <span class="va">file</span>,</span>
+<span>  <span class="va">template_name</span>,</span>
+<span>  <span class="va">columns</span>,</span>
+<span>  <span class="va">sheet</span>,</span>
+<span>  template_version <span class="op">=</span> <span class="st">"1.0"</span>,</span>
+<span>  delimeter <span class="op">=</span> <span class="st">"&lt;delimiter|||&gt;"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>a data.frame containing source data</p></dd>
+
+
 <dt>file</dt>
 <dd><p>output file name</p></dd>
+
+
 <dt>template_name</dt>
 <dd><p>template name</p></dd>
+
+
 <dt>columns</dt>
 <dd><p>columns in template</p></dd>
+
+
 <dt>sheet</dt>
 <dd><p>XLSX sheet name</p></dd>
+
+
 <dt>template_version</dt>
 <dd><p>template version; default: <code>"1.0"</code></p></dd>
+
+
 <dt>delimeter</dt>
 <dd><p>used internally for creating matrix representation for writing to file. Default: <code>"&lt;delimiter|||&gt;"</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>writes XLSX or CSV file</p>
+    
+
+<p>writes XLSX or CSV file</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -96,7 +111,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

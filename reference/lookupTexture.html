@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">NASIStools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9008</span>
       </span>
     </div>
 
@@ -47,40 +47,41 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">lookupTexture</span><span class="op">(</span><span class="va">x</span>, what <span class="op">=</span> <span class="st">"names"</span>, dsn <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="fu">lookupTextureModifier</span><span class="op">(</span><span class="va">x</span>, what <span class="op">=</span> <span class="st">"names"</span>, dsn <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">lookupTexture</span><span class="op">(</span><span class="va">x</span>, what <span class="op">=</span> <span class="st">"names"</span>, dsn <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">lookupTextureModifier</span><span class="op">(</span><span class="va">x</span>, what <span class="op">=</span> <span class="st">"names"</span>, dsn <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>a vector of soil texture/texture modifier abbreviation codes or names</p></dd>
+
+
 <dt>what</dt>
 <dd><p>either <code>"names"</code> (default) or <code>"codes"</code>. The opposite of what <code>x</code> is.</p></dd>
+
+
 <dt>dsn</dt>
-<dd><p>passed to <code><a href="get_NASIS_metadata.html">get_NASIS_metadata()</a></code></p></dd>
+<dd><p>passed to <code><a href="https://ncss-tech.github.io/soilDB/reference/get_NASIS_metadata.html" class="external-link">get_NASIS_metadata()</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a vector of soil texture abbreviation codes or names depending on whether input values are matched in the lookup table and the value of <code>what</code>. Unmatched values in <code>x</code> return <code>NA</code>.</p>
+    
+
+<p>a vector of soil texture abbreviation codes or names depending on whether input values are matched in the lookup table and the value of <code>what</code>. Unmatched values in <code>x</code> return <code>NA</code>.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">lookupTexture</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"loam"</span>, <span class="st">"bar"</span>, <span class="st">"sandy loam"</span><span class="op">)</span>, what <span class="op">=</span> <span class="st">"codes"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error : nanodbc/nanodbc.cpp:1021: 00000: [unixODBC][Driver Manager]Data source name not found and no default driver specified </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no local NASIS database available</span>
-<span class="r-in"><span class="va">x</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">lookupTexture</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"loam"</span>, <span class="st">"bar"</span>, <span class="st">"sandy loam"</span><span class="op">)</span>, what <span class="op">=</span> <span class="st">"codes"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "l"  NA   "sl"</span>
-<span class="r-in"><span class="fu">lookupTexture</span><span class="op">(</span><span class="va">x</span>, what <span class="op">=</span> <span class="st">"names"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error : nanodbc/nanodbc.cpp:1021: 00000: [unixODBC][Driver Manager]Data source name not found and no default driver specified </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no local NASIS database available</span>
+<span class="r-in"><span><span class="fu">lookupTexture</span><span class="op">(</span><span class="va">x</span>, what <span class="op">=</span> <span class="st">"names"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Loam"       NA           "Sandy loam"</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">lookupTextureModifier</span><span class="op">(</span><span class="st">"extremely bouldery"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error : nanodbc/nanodbc.cpp:1021: 00000: [unixODBC][Driver Manager]Data source name not found and no default driver specified </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no local NASIS database available</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">lookupTextureModifier</span><span class="op">(</span><span class="st">"extremely bouldery"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
 </code></pre></div>
     </div>
@@ -96,7 +97,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

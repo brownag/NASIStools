@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">NASIStools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9008</span>
       </span>
     </div>
 
@@ -47,28 +47,39 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">create_PedonPC_NASIS_import</span><span class="op">(</span>
-  tables <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">filename</span>,
-  dsn <span class="op">=</span> <span class="cn">NULL</span>,
-  overwrite <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_PedonPC_NASIS_import</span><span class="op">(</span></span>
+<span>  tables <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">filename</span>,</span>
+<span>  dsn <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  overwrite <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>tables</dt>
 <dd><p>default <code>NULL</code> creates an empty template; alternately a list containing data.frames with target table names and new data to write to file.</p></dd>
+
+
 <dt>filename</dt>
 <dd><p>path to output file containing templates for importing each table associated with the NASIS Pedon object</p></dd>
+
+
 <dt>dsn</dt>
 <dd><p>optional path to SQLite Database or an open DBIConnection to a database containing NASIS pedon tables (not yet implemented)</p></dd>
+
+
 <dt>overwrite</dt>
 <dd><p>default <code>FALSE</code> prevents overwriting <code>filename</code> if it exists</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a character vector (invisibly) containing the lines/content written out to <code>filename</code></p>
+    
+
+<p>a character vector (invisibly) containing the lines/content written out to <code>filename</code></p>
+
+
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -87,7 +98,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

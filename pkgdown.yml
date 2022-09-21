@@ -1,8 +1,8 @@
 pandoc: 2.7.3
-pkgdown: 2.0.2
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles: {}
-last_built: 2022-03-23T15:30Z
+last_built: 2022-09-21T21:53Z
 urls:
   reference: http://brownag.github.io/NASIStools/reference
   article: http://brownag.github.io/NASIStools/articles

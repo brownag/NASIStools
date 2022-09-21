@@ -22,9 +22,6 @@
     <loc>http://brownag.github.io/NASIStools/reference/SSURGO-export-Interpretations.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/reference/createSSURGO.html</loc>
-  </url>
-  <url>
     <loc>http://brownag.github.io/NASIStools/reference/create_PedonPC_NASIS_import.html</loc>
   </url>
   <url>
@@ -35,9 +32,6 @@
   </url>
   <url>
     <loc>http://brownag.github.io/NASIStools/reference/ecositeid_to_name.html</loc>
-  </url>
-  <url>
-    <loc>http://brownag.github.io/NASIStools/reference/get_NASIS_metadata.html</loc>
   </url>
   <url>
     <loc>http://brownag.github.io/NASIStools/reference/get_SSURGO_interp_reasons_by_mrulename.html</loc>
