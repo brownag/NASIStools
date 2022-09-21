@@ -5,7 +5,7 @@
 #' @param dsn passed to `get_NASIS_metadata()`
 #' @return a vector of soil texture abbreviation codes or names depending on whether input values are matched in the lookup table and the value of `what`. Unmatched values in `x` return `NA`.
 #' @export
-#'
+#' @importFrom soilDB get_NASIS_column_metadata
 #' @examples
 #' x <- lookupTexture(c("loam", "bar", "sandy loam"), what = "codes")
 #' x
@@ -13,7 +13,7 @@
 #' 
 #' lookupTextureModifier("extremely bouldery")
 lookupTexture <- function(x, what = "names", dsn = NULL) {
-  md <- get_NASIS_metadata("texcl", dsn = dsn)
+  md <- soilDB::get_NASIS_column_metadata("texcl", dsn = dsn)
   stl <- md$ChoiceName
   stn <- md$ChoiceLabel
   if (what == "codes") {
@@ -24,7 +24,7 @@ lookupTexture <- function(x, what = "names", dsn = NULL) {
 #' @export
 #' @rdname lookupTexture
 lookupTextureModifier <- function(x, what = "names", dsn = NULL) {
-  md <- get_NASIS_metadata("texmod", dsn = dsn)
+  md <- soilDB::get_NASIS_column_metadata("texmod", dsn = dsn)
   stl <- md$ChoiceName
   stn <- md$ChoiceLabel
   if (what == "codes") {
