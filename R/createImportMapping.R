@@ -35,10 +35,10 @@
 #         		<column name="describers_name" column="E"/>
 #         	</table>
 #         </spreadsheet>',
-#     sprintf('<description>%s</description>', description)
+#     sprintf('<description>%s</description>', description),
 #     sprintf('<table name="%s" maxrows="2000" rowstart="4">
 #           		<column name="user_site_id" column="A"/>
 #           	</table>', utn)
 #   )
 # }
-
+# 

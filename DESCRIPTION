@@ -1,6 +1,6 @@
 Package: NASIStools
 Title: Tools for the USDA-NRCS National Soil Information System (NASIS)
-Version: 0.0.0.9008
+Version: 0.0.0.9009
 Authors@R: 
     c(person(given = "Andrew",
              family = "Brown",
@@ -14,12 +14,13 @@ Description: The goal of NASIStools is to provide methods managing NASIS data, S
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Imports: 
     data.table,
     DBI,
     RSQLite,
-    soilDB
+    soilDB,
+    xml2
 Suggests:
     odbc,
     openxlsx,

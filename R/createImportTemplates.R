@@ -52,6 +52,41 @@ create_import_template <- function(.data,
 
 }
 
+#' @param .data Optional: data.frame containing NASIS column physical or logical names to be used to populate the template. Default is an empty template.
+#' @param coltype Either `"physical"` for physical column names, or `"logical"` (default) for logical column names (default for worksheet import maps).
+#' @param ... Additional arguments passed to `create_import_template()`
+#' @rdname create_import_template
+#' @export
+create_import_template_from_mapping <- function(.data = NULL,
+                                                coltype = c("logical", "physical"),
+                                                file,
+                                                template_name,
+                                                sheet,
+                                                ...) {
+  .SD <- NULL
+  coltype <- match.arg(tolower(coltype), c("logical", "physical"))
+  colnm <- paste0(coltype, "_name")
+  
+  y <- read_import_mapping(sheet)
+  y <- y[, .SD[1, ], by = "column"]
+  
+  if (is.null(.data)) {
+    .data <- as.data.frame(sapply(y[[colnm]], \(x) character()))
+  }
+  
+  if (any(!y[[colnm]] %in% names(.data)))
+    stop("the following columns are required:\n",
+         paste0(y[[colnm]][!y[[colnm]] %in% names(.data)], collapse = ", "))
+  
+  create_import_template(.data, 
+                         columns = y[[colnm]],
+                         file = file,
+                         template_name = template_name,
+                         sheet = sheet, ...)
+  
+}
+
+
 #' Create Ecosite / Ecosite Note XLSX NASIS Import Files
 #'
 #' @param file output file name (either .XLSX or .CSV)
