@@ -1,1 +1,4 @@
-url: http://brownag.github.io/NASIStools
+url: http://humus.rocks/NASIStools/
+template:
+  bootstrap: 5
+

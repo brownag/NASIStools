@@ -1,7 +1,7 @@
 # NASIStools
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/brownag/NASIStools/workflows/R-CMD-check/badge.svg)](https://github.com/brownag/NASIStools/actions)
+[![R-CMD-check](https://github.com/brownag/NASIStools/actions/workflows/R-CMD-check.yml/badge.svg)](https://github.com/brownag/NASIStools/actions/workflows/R-CMD-check.yml)
 [![NASIStools Manual](https://img.shields.io/badge/docs-HTML-informational)](https://brownag.github.io/NASIStools/)
 <!-- badges: end -->
 
