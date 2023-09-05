@@ -1,60 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://brownag.github.io/NASIStools/404.html</loc>
+    <loc>http://humus.rocks/NASIStools/404.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/LICENSE.html</loc>
+    <loc>http://humus.rocks/NASIStools/LICENSE.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/authors.html</loc>
+    <loc>http://humus.rocks/NASIStools/authors.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/index.html</loc>
+    <loc>http://humus.rocks/NASIStools/index.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/news/index.html</loc>
+    <loc>http://humus.rocks/NASIStools/news/index.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/reference/NASIStools-package.html</loc>
+    <loc>http://humus.rocks/NASIStools/reference/NASIStools-package.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/reference/SSURGO-export-Interpretations.html</loc>
+    <loc>http://humus.rocks/NASIStools/reference/SSURGO-export-Interpretations.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/reference/create_PedonPC_NASIS_import.html</loc>
+    <loc>http://humus.rocks/NASIStools/reference/create_PedonPC_NASIS_import.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/reference/create_import_template.html</loc>
+    <loc>http://humus.rocks/NASIStools/reference/create_import_template.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/reference/ecosite-import.html</loc>
+    <loc>http://humus.rocks/NASIStools/reference/ecosite-import.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/reference/ecositeid_to_name.html</loc>
+    <loc>http://humus.rocks/NASIStools/reference/ecositeid_to_name.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/reference/get_SSURGO_interp_reasons_by_mrulename.html</loc>
+    <loc>http://humus.rocks/NASIStools/reference/get_SSURGO_interp_reasons_by_mrulename.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/reference/get_correlation_info.html</loc>
+    <loc>http://humus.rocks/NASIStools/reference/get_correlation_info.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/reference/get_lmapunit_by_areasymbol.html</loc>
+    <loc>http://humus.rocks/NASIStools/reference/get_lmapunit_by_areasymbol.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/reference/get_projectmapunits_by_uprojectid.html</loc>
+    <loc>http://humus.rocks/NASIStools/reference/get_projectmapunits_by_uprojectid.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/reference/index.html</loc>
+    <loc>http://humus.rocks/NASIStools/reference/index.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/reference/lookupTexture.html</loc>
+    <loc>http://humus.rocks/NASIStools/reference/lookupTexture.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/reference/remapColumns.html</loc>
+    <loc>http://humus.rocks/NASIStools/reference/read_import_mapping.html</loc>
   </url>
   <url>
-    <loc>http://brownag.github.io/NASIStools/reference/renormalizeColumns.html</loc>
+    <loc>http://humus.rocks/NASIStools/reference/remapColumns.html</loc>
+  </url>
+  <url>
+    <loc>http://humus.rocks/NASIStools/reference/renormalizeColumns.html</loc>
   </url>
 </urlset>
