@@ -64,7 +64,7 @@ create_import_template_from_mapping <- function(.data = NULL,
                                                 sheet,
                                                 ...) {
   .SD <- NULL
-  coltype <- match.arg(tolower(coltype), c("logical", "physical"))
+  coltype <- match.arg(tolower(coltype[1]), choices = c("logical", "physical"))
   colnm <- paste0(coltype, "_name")
   
   y <- read_import_mapping(sheet)
@@ -76,7 +76,7 @@ create_import_template_from_mapping <- function(.data = NULL,
   
   if (any(!y[[colnm]] %in% names(.data)))
     stop("the following columns are required:\n",
-         paste0(y[[colnm]][!y[[colnm]] %in% names(.data)], collapse = ", "))
+         paste0(y[[colnm]][!y[[colnm]] %in% names(.data)], collapse = ", "), call. = FALSE)
   
   create_import_template(.data, 
                          columns = y[[colnm]],

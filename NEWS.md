@@ -1,3 +1,6 @@
+# NASIStools 0.0.0.9009
+* Added `read_import_mapping()` and `create_import_template_from_mapping()`
+
 # NASIStools 0.0.0.9008
 * `get_NASIS_metadata()` and `get_NASIS_column_metadata()` have been moved to {soilDB}.
 

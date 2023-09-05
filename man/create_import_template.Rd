@@ -16,7 +16,6 @@ create_import_template(
 )
 
 create_import_template_from_mapping(
-  wsname,
   .data = NULL,
   coltype = c("logical", "physical"),
   file,
@@ -39,8 +38,6 @@ create_import_template_from_mapping(
 \item{template_version}{template version; default: \code{"1.0"}}
 
 \item{delimeter}{used internally for creating matrix representation for writing to file. Default: \code{"<delimiter|||>"}}
-
-\item{wsname}{Passed to \code{read_import_mapping()}}
 
 \item{coltype}{Either \code{"physical"} for physical column names, or \code{"logical"} (default) for logical column names (default for worksheet import maps).}
 
