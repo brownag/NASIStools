@@ -76,7 +76,7 @@ read_import_mapping <- function(wsname) {
   res <- res[order(nchar(res$column), res$column), ]
   m <- soilDB::get_NASIS_table_metadata()
   .finalStage <- function(y, g) {
-    z <- m[which(m$TableLogicalName == g$table_name & 
+    z <- m[which((m$TableLogicalName == g$table_name | m$TablePhysicalName == g$table_name) & 
                    m$ColumnLogicalName == g$logical_name),]
     y$table_physical_name <- z$TablePhysicalName
     y$physical_name <- z$ColumnPhysicalName
