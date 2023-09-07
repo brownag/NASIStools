@@ -27,11 +27,13 @@ create_import_template <- function(.data,
   stopifnot(endsWith(file, ".csv") || endsWith(file, ".xlsx"))
 
   as_xlsx <- endsWith(file, ".xlsx")
-
-  x <- c(paste0(c(template_name, template_version, rep("", length(columns) - 1)), collapse = delimeter),
+  
+  x <- c(paste0(c(template_name, template_version, rep("", length(columns) - 1)),
+                collapse = delimeter),
          paste0(rep(delimeter, length(columns)), collapse = ""),
-         paste0(paste0(gsub("_", " ", columns), collapse = delimeter)),
-         paste0(apply(.data[, columns, drop = FALSE], 1, paste0, collapse = delimeter), delimeter))
+         paste0(paste0(columns, collapse = delimeter)),
+         paste0(apply(as.matrix(.data)[, colnames(.data) %in% columns, drop = FALSE], 
+                      MARGIN = 1, FUN = paste0, collapse = delimeter), delimeter))
   m <- lapply(x, function(x) strsplit(x, split = delimeter, fixed = TRUE)[[1]])
   mat <- do.call('rbind', m)
   mat[is.na(mat)] <- ""
