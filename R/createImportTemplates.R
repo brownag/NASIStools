@@ -71,6 +71,7 @@ create_import_template_from_mapping <- function(.data = NULL,
   
   y <- read_import_mapping(sheet)
   y <- y[, .SD[1, ], by = "column"]
+  y <- y[order(nchar(y$column), y$column), ]
   
   if (is.null(.data)) {
     .data <- as.data.frame(sapply(y[[colnm]], \(x) character()))
