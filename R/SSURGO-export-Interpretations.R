@@ -88,9 +88,26 @@ get_SSURGO_interp_reasons_by_mrulename <- function(dsn, drv = RSQLite::SQLite(),
   }
 
   # flatten the reasons so they are 1:1 with component, join to lookup tables
-  as.data.frame(merge(merge(res2, high_rep_rating_class, by = c("lmapunitiid", "coiid"), all = TRUE), 
-                      cointerplvl1[, list(Reasons = paste0(paste0(head(.SD[["rulename"]], n), " [", head(.SD[["interphrc"]], n), " (",head(.SD[["interphr"]], n), ")]"), collapse = "; ")), by = c("lmapunitiid", "coiid")],
-                      by = c("lmapunitiid", "coiid"), all = TRUE))
+  .flatsubrules <- function(x, n) {
+    o <- order(x$rulename)
+    paste0(paste0(
+      head(x[["rulename"]][o], n), "\n[", 
+      head(x[["interphrc"]][o], n), " (", 
+      head(x[["interphr"]][o], n), ")]"
+    ), collapse = ";\n\n")
+  }
+  
+  as.data.frame(merge(
+    merge(
+      res2,
+      high_rep_rating_class,
+      by = c("lmapunitiid", "coiid"),
+      all = TRUE
+    ),
+    cointerplvl1[, list(Reasons = .flatsubrules(.SD, n)), by = c("lmapunitiid", "coiid")],
+    by = c("lmapunitiid", "coiid"),
+    all = TRUE
+  ))
 }
 
 
